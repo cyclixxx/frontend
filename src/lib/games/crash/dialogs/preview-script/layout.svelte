@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import ScriptManager from "../../logics/ScriptManager";
   import { crashGame } from "../../store";
-  import Loader from "$lib/components/loader.svelte";
+  import Loader from "$lib/loader.svelte";
   export let script = null;
 
   $: scriptContent = "";

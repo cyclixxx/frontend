@@ -5,8 +5,17 @@ import { user } from "$lib/store/profile";
 import { changeotp } from "$lib/store/routes";
 import { handleIsLogout } from "$lib/auth/hook"
 import { browser } from '$app/environment';
+import { handleAuthToken } from "$lib/store/routes";
 import { coin_list, default_Wallet } from "$lib/store/coins";
 import { goto } from "$app/navigation"
+
+const handleAuthHeader = (()=>{
+    let auth;
+    handleAuthToken.subscribe((token) => {
+        auth = token
+    })
+    return auth
+})
 
 export const handleUserProfile = (async(id)=>{
     let respose = ""
@@ -356,3 +365,22 @@ export const handleChangeDefaultWallet = (async(auth, data)=>{
     return {response, isLoading}
 })
 
+
+export const fetchWallet = (async(event)=>{
+    let response = ""
+    let isLoading = true
+    await axios.get(`${serverUrl()}/api/profile/wallet/${event}`,{
+        headers: {
+            Authorization: `Bearer ${handleAuthHeader()}`
+        }
+    })
+    .then((res)=>{
+        response = res.data
+        isLoading = false
+    })
+    .catch((err)=>{
+        isLoading = false
+        handleResposeMessages("error", err.response?.data)
+    })
+    return response
+})

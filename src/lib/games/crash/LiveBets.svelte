@@ -7,7 +7,8 @@
   import { onDestroy, onMount } from "svelte";
   import { crashGameType, crashGame } from "./store";
   import { url } from "$lib/store/routes";
-  import useFormatter from "$lib/hook/formatter";
+  import useFormatter from "$lib/game-hook/formatter";
+    import Empty from "../../empty.svelte";
   const { autorun } = connect();
   const { removeTrailingZeros, getSuffix } = useFormatter();
   $: trendBetActive = false;
@@ -62,7 +63,6 @@
       }
 
       game.on("player_change", onPlayerChanged);
-
       onDestroy(() => {
         game.off("player_change", onPlayerChanged);
       });
@@ -80,19 +80,19 @@
 <div class="sc-czvZiG gnytwz  {$screen < 1051 ? "mobile-view" : ""}">
   {#if $screen > 1050}
     <div class="top">
-    <div class="title">All Bets</div>
+    <!-- <div class="title">All Bets</div> -->
 
     <div class="flex-middle">
-      <div>Trenball</div>
+      <!-- <div>Trenball</div> -->
 
       <!-- svelte-ignore a11y-no-static-element-interactions -->
       <!-- svelte-ignore a11y-click-events-have-key-events -->
-      <div
+      <!-- <div
         on:click={() => (trendBetActive = !trendBetActive)}
         class="sc-giYglK hRMjrF switch {trendBetActive ? 'open' : ''}"
       >
         <div class="dot"></div>
-      </div>
+      </div> -->
     </div>
   </div>
   {/if}
@@ -121,15 +121,7 @@
                   <td class="user">
                     <a class="sc-jUosCB iTDswZ user-info"
                     href={`${$url === "/" ? "" : $url}/?tab=profile&id=${player.userId}`}>
-                       {#if player.avatar.color}
-                            <div class="avatar "
-                                style={`background-color:${player.avatar.color}; width:2.5rem; height:2.5rem;   border-radius: 50%; align-items: center; display: flex; color: #fff;  justify-content: center; font-weight: 700;  font-size: 14px; text-transform: capitalize;`}>
-                                    {player.name?.charAt(0) ? player.name.charAt(0) : ""}
-                                </div>
-                            {:else}
-                                <img class="avatar " alt="" src={player.avatar.image ? player.avatar.image : ""}>
-                            {/if}
-                      <!-- <img alt="" class="avatar" src={player.hidden ? "/assets/avatar.a1ff78fe.png" : player.avatar} /> -->
+                      <img alt="" class="avatar" src={player?.hidden ? "/assets/avatar.a1ff78fe.png" : player.avatar} />
                       <div class="name">
                         {#if player.hidden}
                           <span class="hidden-name">
@@ -205,10 +197,8 @@
             </tbody>
           </table>
         {:else}
-          <div class="sc-epFoly etYRmD">
-            <div class="sc-eCImPb biQums cuPxwd empty">
-              <div class="msg">Oops! There is no data yet!</div>
-            </div>
+          <div class="sc-epFoly etYRmD" style="height: 400px;">
+            <Empty size={100}/>
           </div>
         {/if}
       </div>
@@ -362,9 +352,10 @@
           </div>
         {:else}
           <div class="sc-epFoly etYRmD">
-            <div class="sc-eCImPb biQums cuPxwd empty">
+            <!-- <div class="sc-eCImPb biQums cuPxwd empty">
               <div class="msg">Oops! There is no data yet!</div>
-            </div>
+            </div> -->
+            <Empty />
           </div>
         {/if}
       </div>
@@ -426,7 +417,7 @@
     position: relative;
     cursor: pointer;
   }
-  .hRMjrF .dot {
+  /* .hRMjrF .dot {
     transition: all 0.2s ease 0s;
     position: absolute;
     left: 0px;
@@ -439,7 +430,7 @@
   .hRMjrF.open .dot {
     left: 0.75rem;
     background-color: var(--primary-color);
-  }
+  } */
 
   .vjsVz {
     height: 100%;
@@ -559,7 +550,7 @@
     font-weight: bold;
   }
   .vjsVz .coin.is-lose .amount {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
   }
   .vjsVz .coin.is-win .amount {
     color: rgb(67, 179, 9);
@@ -633,17 +624,17 @@
     font-size: 1rem;
   }
   .engBBI .banner .red {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
   }
   .engBBI .banner .red .avatar {
-    border-color: rgb(237, 99, 0);
+    border-color: #fb3d3d;
   }
 
   .engBBI .banner .avatar {
     width: 3.125rem;
     height: 3.125rem;
     border-radius: 1.5625rem;
-    border: 2px solid rgb(237, 99, 0);
+    border: 2px solid #fb3d3d;
   }
   .engBBI .banner .title {
     font-weight: bold;
@@ -685,7 +676,7 @@
     height: 2.5rem;
     padding: 0px 0.5rem;
     border-radius: 3px;
-    border-top: 0.1875rem solid rgb(237, 99, 0);
+    border-top: 0.1875rem solid #fb3d3d;
     background-image: linear-gradient(rgba(237, 99, 0, 0.2), rgba(0, 0, 0, 0));
   }
   .engBBI .info-wrap .nums {
@@ -819,7 +810,7 @@
     color: rgb(67, 179, 9);
   }
   .engBBI .status-2 {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
   }
   .engBBI .status-3 {
     color: rgb(226, 180, 11);

@@ -1,13 +1,14 @@
 <script>
-  import Loader from "$lib/components/loader.svelte";
-  import useFormatter from "$lib/hook/formatter";
+  import Loader from "$lib/loader.svelte";
+  import useFormatter from "../../../../../lib/game-hook/formatter";
   import Decimal from "decimal.js";
   import { url } from "$lib/store/routes";
   const { removeTrailingZeros, getSuffix } = useFormatter();
-  import { UseFetchData } from "$lib/hook/useFetchData";
+  import { UseFetchData } from "$lib/game-hook/useFetchData";
   import { handleAuthToken } from "$lib/store/routes";
   import { error_msg } from "../../store";
   import { createEventDispatcher, onMount } from "svelte";
+    import Empty from "../../../../empty.svelte";
   const dispatch = createEventDispatcher();
   export let gameID = "";
   $: players = null;
@@ -86,19 +87,13 @@
       </table>
     {:else}
       <div class="sc-epFoly etYRmD">
-        <div class="sc-eCImPb biQums cuPxwd empty">
-          <img
-            alt="No data"
-            src="https://static.nanogames.io/assets/empty.acd1f5fe.png"
-          />
-          <div class="msg">Oops! There is no data yet!</div>
-        </div>
+         <Empty size={100}/>
       </div>
     {/if}
   </div>
 {:else}
   <div style="height: 500px;">
-    <Loader />
+    <Loader color={"btn"}/>
   </div>
 {/if}
 
@@ -256,7 +251,7 @@
     color: rgb(93, 160, 0);
   }
   .jpLpkO .is-lose .amount {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
   }
   .erPQzq.has-sign .amount-str {
     width: 7.2em;
@@ -270,7 +265,7 @@
     opacity: 0.5;
   }
   .jpLpkO .is-lose .amount {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
   }
   .iTDswZ.user-info .hidden-name {
     color: rgb(153, 164, 176);

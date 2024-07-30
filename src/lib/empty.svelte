@@ -2,6 +2,7 @@
 export let size
 let image = new URL('../lib/images/Empty list image.png', import.meta.url).href
 
+
 </script>
 
 <div class="empty-container">

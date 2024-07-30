@@ -11,7 +11,7 @@
     import Mybet from "$lib/games/ClassicDice/componets/mybet.svelte";
     // import Hotkey from "$lib/games/ClassicDice/componets/hotkey.svelte";
     // import LiveStats from "$lib/games/ClassicDice/componets/liveStats.svelte";
-    import SeedSetting from "../../../lib/games/ClassicDice/componets/share/seedsettings.svelte";
+    import SeedSetting from "$lib/games/ClassicDice/componets/share/seedsettings.svelte";
     import Help from "$lib/games/ClassicDice/componets/help.svelte";
     import { handleDiceGameEncrypt, DiceHistory} from "$lib/gameAPIs/dice" 
     import Loader from "$lib/controller/loader.svelte";

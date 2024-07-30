@@ -347,8 +347,8 @@ const GameEventHandler = class extends EventEmitter {
   }
 
   checkBetCurrency(currency) {
-    if (currency !== "WGF" && currency !== "ETH" && currency !== "BTC") {
-      throw new Error('Select WGF or ETH or BTC to place bets!');
+    if (currency !== "Fun Coupons" && currency !== "USD" ) {
+      throw new Error('Select Fun Coupons or Fun Coupons to place bets!');
     }
   }
 

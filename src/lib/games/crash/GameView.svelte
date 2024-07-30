@@ -307,7 +307,7 @@
     background-color: transparent;
     position: relative;
     padding: 0 10px;
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
     text-align: left;
     gap: 3px;
     align-items: center;
@@ -317,7 +317,7 @@
     width: 1rem;
     height: 1rem;
     border-radius: 0.5rem;
-    background-color: rgb(237, 99, 0);
+    background-color: #fb3d3d;
   }
   .kQtbd .game-item:hover::after {
     content: "";

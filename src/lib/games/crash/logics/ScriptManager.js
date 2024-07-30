@@ -2,7 +2,7 @@ import { action, makeObservable, observable, runInAction } from "mobx";
 import MessageHandler from "./MessageHandler";
 import EventEmitter from "$lib/logics/EventEmitter";
 import WalletManager from "$lib/logics/WalletManager";
-import {ServerURl} from "../../../backendUrl";
+import { serverUrl } from "$lib/backendUrl";
 import axios from "axios";
 import UserStore from "$lib/logics/UserStore";
 
@@ -107,7 +107,7 @@ export default class ScriptManager extends EventEmitter {
   async initScript() {
     if (!this.initPms) {
       this.initPms = axios
-        .post(ServerURl() + "/api/user/crash-game/scripts/list/", {
+        .post(serverUrl() + "/api/user/crash-game/scripts/list/", {
           gameName: this.game.name,
           userId: this.game.user?.userId
         })
@@ -130,7 +130,7 @@ export default class ScriptManager extends EventEmitter {
   }
 
   async delScript({ id }) {
-    await axios.post(ServerURl() + "/api/user/crash-game/scripts/delete/", {
+    await axios.post(serverUrl() + "/api/user/crash-game/scripts/delete/", {
       id,
     }, {
       headers: {
@@ -150,7 +150,7 @@ export default class ScriptManager extends EventEmitter {
     if (id == 0) {
       const {
         data: { id: newId, userId },
-      } = await axios.post(ServerURl() + "/api/user/crash-game/scripts/add/", {
+      } = await axios.post(serverUrl() + "/api/user/crash-game/scripts/add/", {
         gameName: this.game.name,
         name,
         content,
@@ -163,7 +163,7 @@ export default class ScriptManager extends EventEmitter {
       this.scriptList.push({ id: newId, userId, name, content });
       this.scriptList = [...this.scriptList];
     } else {
-      await axios.post(ServerURl() + "/api/user/crash-game/scripts/update/", {
+      await axios.post(serverUrl() + "/api/user/crash-game/scripts/update/", {
         id,
         name,
         content,

@@ -4,12 +4,13 @@
 
 <script>
   const { autorun } = connect();
-  import useFormatter from "$lib/hook/formatter";
+  import useFormatter from "$lib/game-hook/formatter";
   const { removeTrailingZeros, getSuffix } = useFormatter();
   import CrashInfoDialog from "./dialogs/GameInfoDialog.svelte";
   import { crashGame } from "./store";
   import { screen } from "$lib/store/screen";
   import Decimal from "decimal.js";
+  import Empty from "$lib/empty.svelte";
   $: myBets = [];
   let game = null;
   $: {
@@ -68,7 +69,6 @@
           {#if $screen > 458}
           <td>{new Date(bet.betTime).toLocaleTimeString()}</td>
           {/if}
-      
           {#if $screen > 358}
           <td class="bet">
             <div class="sc-Galmp erPQzq coin notranslate monospace">
@@ -82,8 +82,7 @@
           </div>
         </td>
           {/if}
-
-              <td class="payout">{bet.won ? (parseFloat(new Decimal(bet.odds).toDP(2).toNumber())).toFixed(2) : "0.00"}x</td><td
+            <td class="payout">{bet.won ? (parseFloat(new Decimal(bet.odds).toDP(2).toNumber())).toFixed(2) : "0.00"}x</td><td
               class="profitline {bet.won ? 'is-win' : 'is-lose'}"
               ><div class="sc-Galmp erPQzq coin notranslate monospace has-sign">
                 <img alt="" class="coin-icon" src={bet.currencyImage} />
@@ -109,10 +108,8 @@
       </tbody>
     </table>
   {:else}
-    <div class="sc-epFoly etYRmD">
-      <div class="sc-eCImPb biQums cuPxwd empty">
-        <div class="msg">Oops! There is no data yet!</div>
-      </div>
+    <div class="sc-epFoly etYRmD" style="height: 400px;">
+        <Empty size={100} />
     </div>
   {/if}
 </div>
@@ -207,6 +204,6 @@
     color: rgb(67, 179, 9);
   }
   .iycaRo .is-lose .amount {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
   }
 </style>

@@ -7,7 +7,7 @@ import Decimal from "decimal.js";
 import { sortedIndexBy } from "lodash";
 import UserStore from "$lib/logics/UserStore";
 import WalletManager from "$lib/logics/WalletManager";
-import { ServerURl } from "../../../backendUrl";
+import { serverUrl } from "$lib/backendUrl";
 import axios from "axios";
 
 function Bn(seed) {
@@ -107,7 +107,7 @@ export default class CrashGame extends BaseGame {
   static MAX_HISTORY = 2e3;
   constructor() {
     super({ name: "crash",
-        namespace: ServerURl(),
+        namespace: serverUrl(),
         validateLink: "https://nanogamesio.github.io/verify/crash.html",
         fairLink: "/crash_help/fairness",
       }, () => null );
@@ -733,7 +733,7 @@ export default class CrashGame extends BaseGame {
 
   async loadGameHistory() {
     const response = await axios.get(
-      ServerURl() + "/api/user/crash-game/history/",
+      serverUrl() + "/api/user/crash-game/history/",
       {
         headers: {
           "Content-Type": "application/json",

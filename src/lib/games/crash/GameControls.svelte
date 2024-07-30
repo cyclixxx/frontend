@@ -5,12 +5,11 @@
 <script>
   import { screen } from "$lib/store/screen";
   import { browser } from "$app/environment";
-  import { error_msg} from "./store/index";
   import { viewInFiat } from "$lib/store/currency";
   import { default_Wallet } from "$lib/store/coins";
   import WalletManager from "$lib/logics/WalletManager";
-  // import CrashInfoDialog from "./dialogs/GameInfoDialog.svelte";
-  import ConfirmDialog from "../../components/ConfirmDialog.svelte";
+  import CrashInfoDialog from "./dialogs/GameInfoDialog.svelte";
+  import ConfirmDialog from "./components/ConfirmDialog.svelte";
   import { onMount } from "svelte";
   import { crashGameType, crashGame } from "./store";
   import { onDestroy } from "svelte";
@@ -63,8 +62,8 @@
   };
 
   $: xBet = null;
-  $: coinImage = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400";
-  $: coinName = "BTC";
+  $: coinImage = "https://res.cloudinary.com/dxwhz3r81/image/upload/v1721026026/USD_Coin_-_Green_ai65gw.png";
+  $: coinName = "USD";
 
   let game = null;
   let betScript = null;
@@ -108,8 +107,8 @@
         coinName = WalletManager.getInstance().current.currencyName;
         nextBetInfo = game.nextBetInfo;
         canEscape = game.canEscape;
-        inputDisabled = coinName !== "BTC" && coinName !== "WGF" && coinName !== "ETH";
-        canBet = game.canBet && (coinName === "BTC" || coinName === "WGF" || coinName === "ETH");
+        inputDisabled = coinName !== "Fun Coupons" && coinName !== "USD";
+        canBet = game.canBet && (coinName === "Fun Coupons" || coinName === "USD" );
         gameStatus = game.status;
         scriptRunning = game.script.isRunning;
         percentChance = new Decimal(99 / game.maxRate).toDP(2).toNumber();
@@ -149,7 +148,7 @@
       });
     }
   }
-  $: canViewInFiat = $viewInFiat && coinName !== "WGF";
+  $: canViewInFiat = $viewInFiat && coinName !== "Fun Coupons";
   const inputValidate = (e) => {
     function validateInput(input) {
       if (!isNaN(Number(input))) {
@@ -262,10 +261,7 @@
       placingBet = true;
       $crashGame.handleBetCrash()
         .catch((err) => {
-          error_msg.set(err);
-          setTimeout(()=>{
-            error_msg.set("")
-          },4000)
+          console.log(err)
         })
         .finally(() => (placingBet = false));
     }
@@ -375,42 +371,30 @@
   $: dialogData = null;
 
   onMount(()=>{
-    if($default_Wallet.coin_name === "WGF"){
+    if($default_Wallet.coin_name === "Fun Coupons" ){
       currentAmount = (100).toFixed(7)
     }
-    if($default_Wallet.coin_name === "ETH"){
+    if($default_Wallet.coin_name === "USD"){
       currentAmount = (0.004).toFixed(7)
     }
-    if($default_Wallet.coin_name === "BTC"){
-      currentAmount = (0.00012).toFixed(7)
-    }  
   })
 
 
 </script>
 
 {#if Boolean(dialogData)}
-  <!-- <CrashInfoDialog
+  <CrashInfoDialog
     launchConf={dialogData}
     on:close={() => (dialogData = null)}
-  /> -->
+  />
 {/if}
 {#if Boolean(confirmDialogData)}
-  <!-- <ConfirmDialog dialogData={confirmDialogData} /> -->
+  <ConfirmDialog dialogData={confirmDialogData} />
 {/if}
-
-{#if $error_msg}
-<div style="background-color:crimson;" class="error-message">
-  <div class="hTTvsjh">
-    <div>{$error_msg}</div>
-  </div>
-</div>
-{/if}
-
 
 <div id="crash-control-1"
   class="sc-hLVXRe cYiOHZ game-control {$screen < 951 ? 'mobile-view' : 'style1'}">
-  <!-- <div class="sc-iwjdpV {autoBetting && $crashGameType === 2 ? 'eLa-Dxl' : 'ikWSlH'} radio game-control-switch"
+  <div class="sc-iwjdpV {autoBetting && $crashGameType === 2 ? 'eLa-Dxl' : 'ikWSlH'} radio game-control-switch"
     disabled={autoBetting && $crashGameType === 2}>
     <button disabled={autoBetting && $crashGameType === 2}
       on:click={setActivePanel(1)}
@@ -425,7 +409,7 @@
         {$crashGameType === 2 ? "Auto" : "Advance"}
       </div>
     </button>
-  </div> -->
+  </div>
   <div class="game-control-panel">
     {#if activePanel === 1}
       <!-- Classic OR Trend -->
@@ -588,7 +572,7 @@
                   >
                 </div>
               </div>
-              {#if !(coinName === "WGF" || coinName === "BTC" || coinName === "ETH")}
+              {#if !(coinName === "USD" || coinName === "Fun Coupons")}
               <span style="display: block; padding: 10px; color: #fd4d4d; font-size: 0.8rem;">Select another coin</span>
               {/if}
             </div>
@@ -721,7 +705,7 @@
                 >
               </div>
             </div>
-            {#if !(coinName === "WGF" || coinName === "BTC" || coinName === "ETH")}
+            {#if !(coinName === "USD" || coinName === "Fun Coupons")}
               <span style="display: block; padding: 10px; color: #fd4d4d; font-size: 0.8rem;">Select another coin</span>
             {/if}
           </div>
@@ -959,9 +943,8 @@
                     params: { name: "Script Name", content: "" },
                   };
                 }}
-                class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal script-add"
-                ><div class="button-inner">Add a script</div></button
-              >
+                class="sc-iqseJM sc-bqiRlB cBmlor eWZHfu button button-normal script-add">
+                <div class="button-inner">Add a script</div></button>
             </div>
           {/if}
 
@@ -1381,15 +1364,10 @@
     display: flex;
     opacity: 0.5;
   }
-  /* .cYiOHZ.style1 .game-control-switch > button {
+  .cYiOHZ.style1 .game-control-switch > button {
     position: relative;
   }
 
-  .cYiOHZ .game-control-switch > button {
-    flex: 1 1 0%;
-    cursor: pointer;
-    color: rgba(153, 164, 176, 0.6);
-  } */
   .cYiOHZ.style1:not(.mobile-view) .game-control-switch .label {
     transform: translate(-50%, -50%) rotate(-90deg);
   }
@@ -1400,26 +1378,33 @@
     transform: translate(-50%, -50%);
     white-space: nowrap;
   }
-  /* .cYiOHZ .game-control-switch > button.is-active {
+  .cYiOHZ .game-control-switch > button.is-active {
     color: rgb(245, 246, 247);
     font-weight: bold;
-  } */
-  /* .cYiOHZ.style1.mobile-view .game-control-switch > button.is-active {
+  } 
+  .cYiOHZ.mobile-view .game-control-switch {
+      order: 2;
+      margin-top: 1.25rem;
+      position: relative; 
+  }
+  .cYiOHZ.mobile-view .game-control-switch > button {
+    height: 3rem;
+    border-bottom: 2px solid transparent;
+}
+.cYiOHZ.mobile-view .game-control-switch > button.is-active {
     border-bottom: 2px solid var(--primary-color);
-    background-image: linear-gradient(
-      to top,
-      #9900cc44,
-      rgba(0, 0, 0, 0) 50%
-    );
-  } */
-  /* .cYiOHZ.style1:not(.mobile-view) .game-control-switch > button.is-active {
+}
+  .cYiOHZ.mobile-view .game-control-panel {
+      padding: 0px 1.125rem;
+  }
+   .cYiOHZ.style1:not(.mobile-view) .game-control-switch > button.is-active {
     border-right: 2px solid var(--primary-color);
     background-image: linear-gradient(
       to left,
       #9900cc44,
       rgba(0, 0, 0, 0) 50%
     );
-  } */
+  }
   .cYiOHZ.style1:not(.mobile-view) .game-control-switch::after {
     content: "";
     position: absolute;
@@ -1700,7 +1685,18 @@
     background-color: rgba(49, 52, 60, 0.4);
   } */
 
-
+  .gcQjQT .input-control {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border: 1px solid rgb(45, 48, 53);
+    background-color: rgba(45, 48, 53, 0.5);
+    opacity: 1;
+    height: 2.75rem;
+    border-radius: 1.5rem;
+    padding: 0px 1.375rem;
+  }
   .lnBinR .input-control input {
     font-weight: bold;
   }
@@ -1709,6 +1705,23 @@
     color: rgb(245, 246, 247);
   }
 
+  .gcQjQT .input-control input {
+    flex: 1 1 0%;
+    width: 100%;
+    height: 100%;
+    min-width: 1rem;
+    padding: 0px;
+    border: none;
+    background-color: transparent;
+    color: rgb(245, 246, 247);
+  }
+  .gOLODp .coin-icon {
+    order: -1;
+    margin-right: 0.3125rem;
+    margin-left: -0.625rem;
+    width: 1.25rem;
+    height: 1.25rem;
+  }
   .eQfpOS .input-control .button-group {
     margin-right: -1.125rem;
   }
@@ -1721,8 +1734,29 @@
   .bswIvI {
     display: flex;
   }
+  .bswIvI > button:first-child {
+    margin-left: 0px;
+    padding-left: 0.125rem;
+    border-top-left-radius: 1.125rem;
+    border-bottom-left-radius: 1.125rem;
+  }
 
-
+  .bswIvI > button {
+    height: 2.25rem;
+    width: 2.75rem;
+    padding: 0px;
+    color: rgb(153, 164, 176);
+    background: rgb(49, 52, 60);
+    margin-left: 1px;
+  }
+  .bswIvI > button:last-child {
+    padding-right: 0.125rem;
+    border-top-right-radius: 1.125rem;
+    border-bottom-right-radius: 1.125rem;
+  }
+  .bswIvI > button:hover {
+    background: rgb(60, 64, 74);
+  }
 
   .gfnHxc {
     display: flex;
@@ -1777,11 +1811,33 @@
     color: rgb(67, 179, 9);
   }
 
+  .hzTJOu .input-control {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border: 1px solid rgb(45, 48, 53);
+    background-color: rgba(45, 48, 53, 0.5);
+    opacity: 1;
+    height: 2.75rem;
+    border-radius: 1.5rem;
+    padding: 0px 1.375rem;
+  }
   .eQfpOS .input-control input {
     color: rgb(245, 246, 247);
   }
 
-
+  .hzTJOu .input-control input {
+    flex: 1 1 0%;
+    width: 100%;
+    height: 100%;
+    min-width: 1rem;
+    padding: 0px;
+    border: none;
+    background-color: transparent;
+    color: rgb(245, 246, 247);
+    font-weight: bold;
+  }
   .fKDjWC .payout-txt {
     color: rgb(67, 179, 9);
     margin-right: -0.3125rem;
@@ -1808,7 +1864,18 @@
     width: 100%;
   }
 
-
+  .gcQjQT .input-control {
+    position: relative;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    border: 1px solid rgb(45, 48, 53);
+    background-color: rgba(45, 48, 53, 0.5);
+    opacity: 1;
+    height: 2.75rem;
+    border-radius: 1.5rem;
+    padding: 0px 1.375rem;
+  }
   .lnBinR .input-control input {
     font-weight: bold;
   }
@@ -1896,7 +1963,7 @@
   }
   .dqoGMw .bet-button.type-200::before,
   .ifiUVY .bet-button.type-200::before {
-    background-color: rgb(237, 99, 0);
+    background-color: #fb3d3d;
   }
   .dqoGMw .bet-button::before,
   .ifiUVY .bet-button::before {
@@ -2013,7 +2080,16 @@
     -webkit-box-pack: center;
     justify-content: center;
   }
-
+  .kvRMBr .dot-wrap,
+  .eIHoct .dot-wrap {
+    position: absolute;
+    width: 1rem;
+    height: 1.75rem;
+    border-radius: 0.46875rem;
+    background: rgb(67, 179, 9);
+    left: 0.875rem;
+    top: 0.25rem;
+  }
   .dot-wrap .dot {
     width: 1rem;
     height: 1rem;
@@ -2121,7 +2197,7 @@
     color: rgb(67, 179, 9);
   }
   .dDAoYq .logs .type-2 {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
   }
   .dDAoYq .line::after {
     content: "";

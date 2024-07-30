@@ -3,7 +3,6 @@ const { debounce } = pkg;
 import EventEmitter from "$lib/logics/EventEmitter";
 import { gsap } from "gsap";
 
-
   // Game status enum
 const GameStatus = {
   0: 'CONNECTION',
@@ -16,7 +15,7 @@ const GameStatus = {
   ENDED: 3,
 };
 
-const DEFAULT_COLORS = ["#FFFFFF", "#FFFFFF", "#9900CC", "#3d444b", "#ed6300"];
+const DEFAULT_COLORS = ["#FFFFFF", "#FFFFFF", "#9900CC", "#3d444b", "#f10fff", "#fb3d3d"];
 function lightenColor(e) {
   e = e.replace(/#/, "");
   var t = parseInt(e, 16);
@@ -232,7 +231,7 @@ export default class CrashGameGraph extends EventEmitter {
       );
     } else if (this.game.status === GameStatus.ENDED) {
       this.ctx.font = `bold ${this.fontSizePx(4)} ${CrashGameGraph.fontFamily}`;
-      this.ctx.fillStyle = this.colors[4];
+      this.ctx.fillStyle = this.colors[5];
 
       this.ctx.fillText(
         "Bang" + " @" + this.game.rate.toFixed(2) + "×",

@@ -1,10 +1,8 @@
 <script>
-  import Loader from "$lib/components/loader.svelte";
+  import Loader from "$lib/loader.svelte";
   import Decimal from "decimal.js";
-  import { UseFetchData } from "$lib/hook/useFetchData";
+  import { UseFetchData } from "$lib/game-hook/useFetchData";
   import { handleAuthToken } from "$lib/store/routes";
-  import { VerifyURl } from "$lib/backendUrl";
-  import { error_msg } from "../../store";
   import { createEventDispatcher, onMount } from "svelte";
   const dispatch = createEventDispatcher();
   export let betID = "";
@@ -22,10 +20,7 @@
       );
       details = data.details;
     } catch (error) {
-      error_msg.set(error.message);
-      setTimeout(()=>{
-        error_msg.set("");
-      },4000)
+     console.log(error)
     }
   });
 
@@ -174,7 +169,7 @@
           <button
           on:click={() => {
             window.open(
-              `${VerifyURl()}/verify/crash?hash=${details.gameHash}`,
+              `/verify/crash?hash=${details.gameHash}`,
               "_blank"
             );
           }}
@@ -354,7 +349,7 @@
     margin-right: 0.5rem;
   }
   .fBJgLI .item-wrap .item-num > svg.chance {
-    fill: rgb(237, 99, 0);
+    fill: #fb3d3d;
   }
   .kDuLvp {
     margin-top: 1rem;

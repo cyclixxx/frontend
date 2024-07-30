@@ -168,7 +168,7 @@
       padding-top: 100%;
     }
     .grKOWb.type-1::after {
-      background-color: rgb(237, 99, 0);
+      background-color: #fb3d3d;
     }
     .grKOWb::after {
       content: "";
@@ -255,7 +255,7 @@
     background-color: rgb(246, 199, 34);
 } */
     .itetCR.type-1::after {
-      background-color: rgb(237, 99, 0);
+      background-color: #fb3d3d;
     }
     /* .JLcsN {
     position: fixed;
@@ -323,7 +323,7 @@
     padding-top: 100%;
 }
 .grKOWb.type-1::after {
-    background-color: rgb(237, 99, 0);
+    background-color: #fb3d3d;
 }
 .grKOWb::after {
     content: "";

@@ -1,7 +1,7 @@
 import Decimal from "decimal.js";
 import GameEventHandler from "./GameEventHandler";
 import UserStore from "$lib/logics/UserStore";
-import {ServerURl} from "../../../backendUrl"
+import { serverUrl } from "$lib/backendUrl";
 import { action, makeObservable, observable } from "mobx";
 import axios from "axios";
 
@@ -28,7 +28,7 @@ export default class BaseGame extends GameEventHandler {
   }
 
   async loadMybet() {
-    const response = await axios.post(ServerURl()+"/api/user/crash-game/my-bet/", {
+    const response = await axios.post(serverUrl()+"/api/user/crash-game/my-bet/", {
       size: 10
     }, {
       headers: {

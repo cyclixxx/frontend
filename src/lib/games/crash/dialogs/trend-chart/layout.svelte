@@ -266,7 +266,7 @@
 }
 
 .grKOWb.type-1::after {
-    background-color: rgb(237, 99, 0);
+    background-color: #fb3d3d;
 }
 .grKOWb.type-3::after {
     background-color: rgb(246, 199, 34);
@@ -328,7 +328,7 @@
     fill: rgba(153, 164, 176, 0.6);
 }
 .ccSpMv .red {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
 }
 .ccSpMv .green {
     color:  rgb(67, 179, 9);

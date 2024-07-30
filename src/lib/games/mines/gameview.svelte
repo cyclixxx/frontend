@@ -15,8 +15,8 @@ import HistoryDetails from "./componets/historyDetails.svelte";
 import win from "./audio/scale-d6-106129.mp3";
 import wion from "./audio/box-crash-106687.mp3";
 import cr from "./audio/click.wav";
-import { ServerURl } from "$lib/backendUrl"
-const URL = ServerURl()
+import { serverUrl } from "$lib/backendUrl";
+const URL = serverUrl()
 let skown = handleMinesSet()
 
 let DgII = ''

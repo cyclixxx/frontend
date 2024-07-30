@@ -185,7 +185,7 @@ $:{
 }
 
 .iycaRo .is-lose .amount {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
 }
 
 .erPQzq.has-sign .amount-str {
@@ -193,7 +193,7 @@ $:{
 }
 
 .iycaRo .is-lose .amount {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
 }
 .iycaRo .is-win .amount {
     color: rgb(67, 179, 9);

@@ -344,7 +344,7 @@
         width: 7.2em;
     }
     .iycaRo .is-lose .amount {
-        color: rgb(237, 99, 0);
+        color: #fb3d3d;
     }
     .iycaRo .is-win .amount {
         color: rgb(67, 179, 9);
@@ -454,7 +454,7 @@
         display: inline-block;
     }
     .iycaRo .is-lose .amount {
-        color: rgb(237, 99, 0);
+        color: #fb3d3d;
     }
     .erPQzq .suffix {
         opacity: 0.5;

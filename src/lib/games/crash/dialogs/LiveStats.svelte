@@ -2,8 +2,8 @@
    import {crashGame } from "../store";
   import { browser } from "$app/environment";
   import { createEventDispatcher, onDestroy, onMount } from "svelte";
-  import useFormatter from "$lib/hook/formatter";
-  import useLiveStats from "$lib/hook/livestats";
+  import useFormatter from "$lib/game-hook/formatter";
+  import useLiveStats from "$lib/game-hook/livestats";
   import { liveStats } from "../store";
   import {
     Chart,
@@ -56,7 +56,7 @@
             {
               data: stats.points.map((p) => (p > 0 ? p : 0)),
               fill: true,
-              backgroundColor: "rgba(93, 160, 0, 0.8)",
+              backgroundColor: "#fb3d3d",
               borderColor: "#5da000",
               pointRadius: 0,
               pointHoverRadius: 5,
@@ -67,8 +67,8 @@
             {
               data: stats.points.map((p) => (p < 0 ? p : 0)),
               fill: true,
-              backgroundColor: "rgba(237, 99, 0, 0.8)",
-              borderColor: "#ed6300",
+              backgroundColor: "#fb3d3d68",
+              borderColor: "#fb3d3d68",
               pointRadius: 0,
               pointHoverRadius: 5,
               pointHoverBackgroundColor: "#FFFFFF",
@@ -406,7 +406,7 @@
     opacity: 0.5;
   }
   .dQxvCn .chart-cont .item-wrap .cl-require .amount {
-    color: rgb(237, 99, 0) !important;
+    color: #fb3d3d !important;
   }
 
   .dQxvCn .chart-cont .item-wrap .cl-success .amount {
@@ -442,7 +442,7 @@
     font-weight: 600;
   }
   .dQxvCn .bet-wrap .lose .num {
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
   }
  
 </style>

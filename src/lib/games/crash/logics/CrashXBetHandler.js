@@ -9,13 +9,13 @@ import {
   runInAction,
 } from "mobx";
 import Decimal from "decimal.js";
-import { ServerURl } from "../../../backendUrl";
+import { serverUrl } from "$lib/backendUrl";
 import WalletManager from "$lib/logics/WalletManager";
 import UserStore from "$lib/logics/UserStore";
 // Crash Game Bet Handlers
 export default class CrashXBetHandler extends GameEventHandler {
   constructor(game) {
-    super({ name: "crash_xbet", namespace: ServerURl() }, () => null);
+    super({ name: "crash_xbet", namespace: serverUrl() }, () => null);
 
     this.throwLimit = {};
     this.game = game;

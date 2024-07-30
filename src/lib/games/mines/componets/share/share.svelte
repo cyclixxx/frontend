@@ -374,7 +374,7 @@ const handleCloseHelp = (() => {
 }
 .cyBkzk.right-lose .animation-card {
     font-size: 1rem;
-    color: rgb(237, 99, 0);
+    color: #fb3d3d;
 }
 .cyBkzk .animation-card {
     width: 100%;

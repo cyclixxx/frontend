@@ -9,7 +9,6 @@
   import Decimal from "decimal.js";
   import CrashInfoDialog from "./dialogs/GameInfoDialog.svelte";
   import { onMount } from "svelte";
-    import { VerifyURl } from "$lib/backendUrl";
   import {
     Chart,
     CategoryScale,
@@ -313,16 +312,16 @@
                   {game.gameId}
                 </button>
                 </td>
-                <td>{game.odds.toFixed(2)}x</td><td
-                ><div class="flex-center">
+                <td>{game.odds.toFixed(2)}x</td><td>
+                  <div class="flex-center">
                   <input type="text" readonly="" value={game.hash} /><a
                     target="_blank"
-                    href="{VerifyURl()}/verify/crash?hash={game.hash}"
-                    >Verify</a
-                  >
-                </div></td
-              ></tr
-            >
+                    href="/verify/crash?hash={game.hash}">
+                    Verify
+                  </a>
+                </div>
+              </td>
+            </tr>
           {/each}</tbody
         >
       </table>
@@ -569,7 +568,7 @@
   }
 
   .iovqrr .dot.type-1 {
-    background-color: rgb(237, 99, 0);
+    background-color: #fb3d3d;
   }
 
   .iovqrr .dot {

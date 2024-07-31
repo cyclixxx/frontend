@@ -2,14 +2,10 @@
     import "../styles/home.css"
     import LiveLayout from "$lib/homeComponent/liveLayout.svelte";
     import NavTabs from "$lib/homeComponent/navTabs.svelte";
-    import { register } from 'swiper/element/bundle';
     import { handleListGame, slots , livGames, Buyslots} from "$lib/homeComponent/hook"
     import { onMount } from "svelte";
     import { screen } from "$lib/store/screen";
 
-    onMount(()=>{
-       register();
-   })
 
    let live = [1,2,3,4,5,6,7,8,9,0,9,8,7,6]
 

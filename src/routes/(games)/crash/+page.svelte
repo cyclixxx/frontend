@@ -12,7 +12,7 @@ import { crashGame } from "$lib/games/crash/store";
 import { onMount } from "svelte";
 import CrashGame from "$lib/games/crash/logics/CrashGame";
 
-$: tabOffset = $newScreen > 900 ? 0 : 1;
+$: tabOffset = $newScreen > 1100 ? 0 : 1;
 $: currentTab = !tabOffset && currentTab === 3 ? 1 : (currentTab || 1);
 $: gameInit = false;
 
@@ -39,7 +39,7 @@ onMount(async () => {
       <GameControls />
       <GameActions />
     </div>
-    {#if $newScreen > 900}
+    {#if $newScreen > 1100}
       <LiveBets />
     {/if}
   </div>

@@ -3,7 +3,7 @@
 </script>
 
 <script>
-  import { screen } from "$lib/store/screen";
+  import { newScreen } from "$lib/store/screen";
   import { onDestroy, onMount } from "svelte";
   import { crashGameType, crashGame } from "./store";
   import { url } from "$lib/store/routes";
@@ -77,8 +77,8 @@
   });
 </script>
 
-<div class="sc-czvZiG gnytwz  {$screen < 1051 ? "mobile-view" : ""}">
-  {#if $screen > 1050}
+<div class="sc-czvZiG gnytwz  {$newScreen < 1100 ? "mobile-view" : ""}">
+  {#if $newScreen > 1100}
     <div class="top">
     <!-- <div class="title">All Bets</div> -->
 
@@ -100,19 +100,15 @@
   {#if !trendBetActive}
     <div class="sc-eoHXOn vjsVz need-scroll">
       <table class="head">
-        <tbody
-          ><tr
-            ><td class="user">Player</td><td class="escape">Cash Out</td><td
+        <tbody>
+          <tr><td class="user">Player</td><td class="escape">Cash Out</td><td
               class="amount">Amount</td
             ><td>Profit</td></tr
-          ></tbody
-        >
+          ></tbody>
       </table>
-      <div
-        class="scroll-wrap {showingMore
+      <div  class="scroll-wrap {showingMore
           ? 'has-scroll scroll-view jScFby sc-dkPtRN'
-          : ''}"
-      >
+          : ''}">
         {#if Boolean(players.length)}
           <table class="sc-gWXbKe iUeetX table is-hover">
             <tbody>
@@ -156,9 +152,9 @@
                       />
                       <div class="amount">
                         <span class="amount-str"
-                          >{removeTrailingZeros(player.bet.toFixed(7))}<span
+                          >{removeTrailingZeros(player.bet.toFixed(2))}<span
                             class="suffix"
-                            >{getSuffix(player.bet.toFixed(7))}</span
+                            >{getSuffix(player.bet.toFixed(2))}</span
                           ></span
                         >
                       </div>
@@ -178,10 +174,10 @@
                         <div class="amount">
                           <span class="amount-str"
                             >{removeTrailingZeros(
-                              player.rate ? player.bet.mul(player.rate).sub(player.bet).toFixed(4) : player.bet.toFixed(4)
+                              player.rate ? player.bet.mul(player.rate).sub(player.bet).toFixed(2) : player.bet.toFixed(4)
                             )}<span class="suffix"
                               >{getSuffix(
-                                player.rate ? player.bet.mul(player.rate).sub(player.bet).toFixed(4) : player.bet.toFixed(4)
+                                player.rate ? player.bet.mul(player.rate).sub(player.bet).toFixed(2) : player.bet.toFixed(4)
                               )}</span
                             ></span
                           >
@@ -208,12 +204,8 @@
           on:click={() => (showingMore = !showingMore)}
           class="list-toggle {showingMore ? 'show-more' : 'show-less'}"
           ><div>{showingMore ? "Show less" : "Show more"}</div>
-          <svg
-            xmlns:xlink="http://www.w3.org/1999/xlink"
-            class="sc-gsDKAQ hxODWG icon"
-            ><use xlink:href="#icon_Arrow"></use></svg
-          ></button
-        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="sc-gsDKAQ hxODWG icon" viewBox="0 0 221.14 133.14"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polygon class="cls-1" points="221.14 43.1 221.14 0 110.57 90.04 0 0 0 43.1 110.57 133.14 221.14 43.1"/></g></g></svg>
+          </button>
       </div>
     </div>
   {:else}

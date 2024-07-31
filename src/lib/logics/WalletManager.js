@@ -59,12 +59,12 @@ class Currency {
   }
   addDeduction(e) {
     this.deducting = this.deducting.add(e);
-    if (this.currencyName === "usd") {
+    if (this.currencyName === "USD") {
       usd.update((wallet) => ({
         ...wallet,
         balance: this.available,
       }));
-    } else if (this.currencyName === "fun") {
+    } else if (this.currencyName === "Fun Coupons") {
       fun_coupon.update((wallet) => ({
         ...wallet,
         balance: this.available,
@@ -126,7 +126,7 @@ export default class WalletManager extends EventEmitter {
       currencyName: appData.currencyName,
       currencyImage: appData.currencyImage,
       aliasCurrencyName: appData.currencyName,
-      minAmount: 100, maxAmount: 10000,
+      minAmount: 0.01, maxAmount: 10000000,
       usdPrice: 0,
     });
     
@@ -136,14 +136,14 @@ export default class WalletManager extends EventEmitter {
       () => UserStore.getInstance().auth,
       () => {
         this.syncData();
-      }
+      } 
     );
     
     const updateWallet = (wallet) => {
       if (wallet && wallet.coin_name) {
-        let minAmount = wallet.coin_name === "Fun Coupons"  ? 1 : wallet.coin_name === "USD" ? 0.0002 : 179878;
-          let maxAmount = wallet.coin_name === "Fun Coupons"  ? 10000 : wallet.coin_name === "USD" ? 0.2 : 0.4;
-          const usdPrice = wallet.coin_name === "Fun Coupons"  ? 0 : (wallet.coin_name === "USD" ? 0.1 : 123);
+        let minAmount = wallet.coin_name === "Fun Coupons"  ? 0.01 : wallet.coin_name === "USD" ? 0.01 : 1000000;
+          let maxAmount = wallet.coin_name === "Fun Coupons"  ? 1000000 : wallet.coin_name === "USD" ? 50000 : 0.4;
+          const usdPrice = wallet.coin_name === "Fun Coupons"  ? 1000000 : (wallet.coin_name === "USD" ? 0.1 : 123);
         if (this.dict[wallet.coin_name]) {
           this.dict[wallet.coin_name].setAmount(wallet.balance);
           this.dict[wallet.coin_name].minAmount = minAmount;
@@ -314,9 +314,9 @@ export default class WalletManager extends EventEmitter {
       balances
         .sort((a, b) => a.amount - b.amount)
         .forEach((balance) => {
-          const minAmount = balance.currencyName === "Fun Coupons"  ? 100 : balance.currencyName === "USD" ? 0.0002 : 199;
-          const maxAmount = balance.currencyName === "Fun Coupons"  ? 10_000 : balance.currencyName === "USD" ? 0.2 : 30_000;
-          const usdPrice = balance.currencyName === "Fun Coupons"  ? 0 : (balance.currencyName === "USD" ? 0.1 : 1);
+          let minAmount = wallet.coin_name === "Fun Coupons"  ? 0.01 : wallet.coin_name === "USD" ? 0.01 : 1000000;
+          let maxAmount = wallet.coin_name === "Fun Coupons"  ? 1000000 : wallet.coin_name === "USD" ? 50000 : 0.4;
+          const usdPrice = wallet.coin_name === "Fun Coupons"  ? 1000000 : (wallet.coin_name === "USD" ? 0.1 : 123);
           let currency = this.dict[balance.currencyName];
 
           if (currency) {

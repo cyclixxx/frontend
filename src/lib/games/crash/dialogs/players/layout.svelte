@@ -93,7 +93,7 @@
   </div>
 {:else}
   <div style="height: 500px;">
-    <Loader color={"btn"}/>
+    <Loader color={"sd"}/>
   </div>
 {/if}
 

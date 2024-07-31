@@ -44,7 +44,6 @@
           {#if $screen > 358}
           <th class="bet">Bet</th>
           {/if}
-        
           <th class="payout">Payout</th>
           <th class="profit">Profit</th>
         </tr>
@@ -75,8 +74,8 @@
             <img alt="" class="coin-icon" src={bet.currencyImage} />
             <div class="amount">
               <span class="amount-str">
-                {removeTrailingZeros(bet.betAmount.toFixed(7))}
-                <span style="margin-left: -3px;" class="suffix">{getSuffix(bet.betAmount.toFixed(7))}</span>
+                {removeTrailingZeros(bet.betAmount.toFixed(2))}
+                <span style="margin-left: -3px;" class="suffix">{getSuffix(bet.betAmount.toFixed(2))}</span>
                 </span>
             </div>
           </div>
@@ -90,13 +89,13 @@
                   <span class="amount-str"
                     >{bet.won ? "+" : ""}{removeTrailingZeros(
                       bet.won
-                        ? bet.profitAmount.toFixed(7)
-                        : bet.betAmount.toFixed(7)
+                        ? bet.profitAmount.toFixed(2)
+                        : bet.betAmount.toFixed(2)
                     )}<span class="suffix"
                       >{getSuffix(
                         bet.won
-                          ? bet.profitAmount.toFixed(7)
-                          : bet.betAmount.toFixed(7)
+                          ? bet.profitAmount.toFixed(2)
+                          : bet.betAmount.toFixed(2)
                       )}</span
                     ></span
                   >

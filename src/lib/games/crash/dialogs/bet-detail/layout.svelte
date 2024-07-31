@@ -6,6 +6,7 @@
   import { createEventDispatcher, onMount } from "svelte";
   const dispatch = createEventDispatcher();
   export let betID = "";
+  $: salt = "Qede00000000000w00wd001bw4dc6a1e86083f95500b096231436e9b25cbdd0075c4"
   $: details = null;
   let gameNameMap = {
     normal: "Classic",
@@ -74,7 +75,7 @@
             >Amount
           </div>
           <div class="number flex-center">
-            {(parseFloat(new Decimal(details.betAmount).toDP(6))).toFixed(7)} {details.currencyName}
+            {(parseFloat(new Decimal(details.betAmount).toDP(6))).toFixed(2)} {details.currencyName}
           </div>
         </div>
         <div class="item-wrap">
@@ -99,7 +100,7 @@
           </div>
           <div class="number flex-center">
             {details.won
-              ? new Decimal(details.profitAmount).toDP(6)
+              ? new Decimal(details.profitAmount).toDP(2)
               : `-${details.betAmount}`}
             {details.currencyName}
           </div>
@@ -168,20 +169,17 @@
         </button>
           <button
           on:click={() => {
-            window.open(
-              `/verify/crash?hash=${details.gameHash}`,
-              "_blank"
+            window.open(`/provably-fair/calculation?tab=Crash&hash=${details.gameHash}&salt=${salt}`,  "_blank"
             );
           }}
           class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal"
-          ><div class="button-inner">Verify</div></button
-        >
+          ><div class="button-inner">Verify</div></button>
       </div>
     </div>
   </div>
 {:else}
   <div style="height: 500px;">
-    <Loader />
+    <Loader color={"sd"} />
   </div>
 {/if}
 

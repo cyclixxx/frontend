@@ -2,7 +2,7 @@
     import Gameview from "$lib/games/ClassicDice/gameview.svelte";
     import Controls from "$lib/games/ClassicDice/Controls.svelte";
     import { newScreen } from "$lib/store/screen";
-    import {  handleAuthToken} from "$lib/store/routes";
+    import {  handleAuthToken } from "$lib/store/routes";
     import { onMount } from "svelte";
     import { browser } from '$app/environment';
     import { handleSoundManager } from "$lib/games/ClassicDice/audio/SoundManager";
@@ -13,9 +13,9 @@
     // import LiveStats from "$lib/games/ClassicDice/componets/liveStats.svelte";
     import SeedSetting from "$lib/games/ClassicDice/componets/share/seedsettings.svelte";
     import Help from "$lib/games/ClassicDice/componets/help.svelte";
-    import { handleDiceGameEncrypt, DiceHistory} from "$lib/gameAPIs/dice" 
+    import { handleDiceGameEncrypt, DiceHistory } from "$lib/gameAPIs/dice";
     import Loader from "$lib/controller/loader.svelte";
-    import Description from "$lib/games/ClassicDice/componets/description.svelte"
+    import Description from "$lib/games/ClassicDice/componets/description.svelte";
 
     $: is_hotkey = false
     $: is_stats = false
@@ -64,12 +64,12 @@ $: showDesc = false
 
   <!-- {#if is_hotkey}
     <Hotkey on:close={()=> is_hotkey = false} />
-  {/if}
-   -->
+  {/if} -->
+
   <!-- {#if is_stats}
     <LiveStats on:close={()=> is_stats = false} />
   {/if} -->
-  
+
   {#if isSeed}
   <div class="sc-bkkeKt kBjSXI">
     <div class="dialog " style={`${$newScreen < 650 ? "transform: scale(1) translateZ(0px);" : "opacity: 1; width: 464px; height: 631px; margin-top: -315.5px; margin-left: -232px;"}  `}>

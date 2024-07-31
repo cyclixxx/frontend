@@ -62,7 +62,7 @@
       el.style.fontSize = `${$screen > 650 ? 16 : $screen > 560 ?  23 : $screen > 500 ? 21.34 : $screen > 440 ? 17.54 : $screen >  300 ?  13.5 : 11.5}px`;
    })
   
-   $: sideHasExpand = 248
+   $: sideHasExpand = 8
    $: menu = false
    $: chat = false
 

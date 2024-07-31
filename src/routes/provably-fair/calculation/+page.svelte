@@ -5,7 +5,7 @@
     import { handleFetch } from "$lib/gameAPIs/dice"
     import Mine from "$lib/provably-fair/mine.svelte";
     import { url, seaser } from "$lib/store/routes";
-    import { goto } from "$app/navigation"
+    import { goto } from "$app/navigation";
     $:  pint = null
     $: is_open = false
     let games = [
@@ -68,7 +68,7 @@
     </div>
     <div class="sc-dkPtRN jScFby scroll-view sc-cBIieI fVyucj">
         {#if tab === "Crash"}
-        <Crash />
+        <Crash hash={$seaser[1]} seed={$seaser[2]}/>
         {:else if tab === "classic Dice"}
         <ClassicDice {handleClientSeed} {pint} seaser={$seaser}/>
         {:else if tab === "Mine"}

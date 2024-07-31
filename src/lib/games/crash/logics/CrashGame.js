@@ -65,36 +65,26 @@ async function currencInfo() {
   return {
     normalBetLimits: [
       {
-        currencyName: "ETH",
+        currencyName: "Fun Coupons",
         minAmount: 0.0012,
         maxAmount: 0.2,
       },
       {
-        currencyName: "BTC",
+        currencyName: "USD",
         minAmount: 0.0004,
         maxAmount: 0.09,
-      },
-      {
-        currencyName: "WGF",
-        minAmount: 100,
-        maxAmount: 5000,
       },
     ],
     xbetLimits: [
       {
-        currencyName: "ETH",
+        currencyName: "Fun Coupons",
         minAmount: 0.0012,
         maxAmount: 0.2,
       },
       {
-        currencyName: "BTC",
+        currencyName: "USD",
         minAmount: 0.0004,
         maxAmount: 0.09,
-      },
-      {
-        currencyName: "WGF",
-        minAmount: 10,
-        maxAmount: 5000,
       },
     ],
   };
@@ -108,7 +98,7 @@ export default class CrashGame extends BaseGame {
   constructor() {
     super({ name: "crash",
         namespace: serverUrl(),
-        validateLink: "https://nanogamesio.github.io/verify/crash.html",
+        validateLink: "/verify/crash.html",
         fairLink: "/crash_help/fairness",
       }, () => null );
     this.user = null;

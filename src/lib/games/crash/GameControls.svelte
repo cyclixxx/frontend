@@ -3,7 +3,7 @@
 </script>
 
 <script>
-  import { screen } from "$lib/store/screen";
+  import { newScreen } from "$lib/store/screen";
   import { browser } from "$app/environment";
   import { viewInFiat } from "$lib/store/currency";
   import { default_Wallet } from "$lib/store/coins";
@@ -38,9 +38,9 @@
   $: betInfo = null;
   $: xBetInfo = null;
   $: betRate = 1;
-  $: currentAmount = "100.00000000";
-  $: currentXAmount = "1.00000000";
-  $: currentMaxRate = 5000;
+  $: currentAmount = "100.00";
+  $: currentXAmount = "1.0";
+  $: currentMaxRate = 100000;
   $: xBetting = false;
   $: betting = false;
   $: inputDisabled = false;
@@ -72,15 +72,14 @@
   $: scriptConfig = null;
   $: {
     const _game = $crashGame;
-
     if (!game && _game) {
       game = _game;
       betScript = game.script;
       xBet = game.xbet;
       autoBet = xBet.autoBet;
       currentMaxRate = game.maxRate;
-      currentAmount = game.amount.toFixed(7);
-      currentXAmount = xBet.amount.toFixed(7);
+      currentAmount = game.amount.toFixed(2);
+      currentXAmount = xBet.amount.toFixed(2);
       autoBetInfo = {
         numberOfBets: autoBet.times,
         stopOnLose: new Decimal(autoBet.stopOnLose).toDP(8),
@@ -101,8 +100,8 @@
         scriptList = game.script.scriptList;
         scriptLogs = game.script.logs;
         scriptConfig = game.script.config;
-        currentAmount = game.amount.toFixed(7);
-        currentXAmount = xBet.amount.toFixed(7);
+        currentAmount = game.amount.toFixed(2);
+        currentXAmount = xBet.amount.toFixed(2);
         coinImage = WalletManager.getInstance().current.currencyImage;
         coinName = WalletManager.getInstance().current.currencyName;
         nextBetInfo = game.nextBetInfo;
@@ -208,7 +207,7 @@
           game.setAmount(
             new Decimal(WalletManager.getInstance().dict[coinName].maxAmount)
           );
-        currentAmount = game.amount.toFixed(4);
+        currentAmount = game.amount.toFixed(2);
       }
     };
   };
@@ -228,7 +227,7 @@
           xBet.setAmount(
             new Decimal(WalletManager.getInstance().dict[coinName].maxAmount)
           );
-        currentXAmount = xBet.amount.toFixed(4);
+        currentXAmount = xBet.amount.toFixed(2);
       }
     };
   };
@@ -370,15 +369,6 @@
   });
   $: dialogData = null;
 
-  onMount(()=>{
-    if($default_Wallet.coin_name === "Fun Coupons" ){
-      currentAmount = (100).toFixed(7)
-    }
-    if($default_Wallet.coin_name === "USD"){
-      currentAmount = (0.004).toFixed(7)
-    }
-  })
-
 
 </script>
 
@@ -393,7 +383,7 @@
 {/if}
 
 <div id="crash-control-1"
-  class="sc-hLVXRe cYiOHZ game-control {$screen < 951 ? 'mobile-view' : 'style1'}">
+  class="sc-hLVXRe cYiOHZ game-control {$newScreen < 1100 ? 'mobile-view' : 'style1'}">
   <div class="sc-iwjdpV {autoBetting && $crashGameType === 2 ? 'eLa-Dxl' : 'ikWSlH'} radio game-control-switch"
     disabled={autoBetting && $crashGameType === 2}>
     <button disabled={autoBetting && $crashGameType === 2}
@@ -439,7 +429,7 @@
               class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-big sc-ywFzA qPdve"
               ><div class="button-inner" style="width: 100%;">
                 <div class="monospace" style="width: 100%">
-                  {`${parseFloat(currentGamePayout * currentAmount).toFixed(4)} ${betInfo.currencyName}`}
+                  {`${parseFloat(currentGamePayout * currentAmount).toFixed(2)} ${betInfo.currencyName}`}
                 </div>
                 <div class="sub-text">(Cash out)</div>
               </div>
@@ -470,7 +460,7 @@
             {/if}
           {/if}
 
-          <div class="forms {$screen < 952 ? 'mobile-view' : ''}">
+          <div class="forms {$newScreen < 1100 ? 'mobile-view' : ''}">
             <div
               class="sc-ezbkAF gcQjQT input sc-fvxzrP gOLODp sc-cAhXWc lnBinR game-coininput {betting ? 'disabled' : ''}" >
               <div class="input-label">
@@ -507,7 +497,7 @@
                   type="text"
                   value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
                     currentAmount
-                  ).toFixed(4) : currentAmount}
+                  ).toFixed(2) : currentAmount}
                 />
                 <img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
                 <div class="sc-kDTinF bswIvI button-group">
@@ -555,21 +545,12 @@
                   <button
                     disabled={betting || inputDisabled}
                     class="sc-gqtqkP gfnHxc"
-                    on:click={(e) => {
-                      e.stopPropagation();
+                    on:click={(e) => { e.stopPropagation();
                       if (betting || inputDisabled) return;
-                      sliderOpened = { classic: true };
-                    }}
-                    ><svg
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
-                      class="sc-gsDKAQ hxODWG icon"
-                      ><use xlink:href="#icon_Arrow"></use></svg
-                    ><svg
-                      xmlns:xlink="http://www.w3.org/1999/xlink"
-                      class="sc-gsDKAQ hxODWG icon"
-                      ><use xlink:href="#icon_Arrow"></use></svg
-                    ></button
-                  >
+                      sliderOpened = { classic: true }}}>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="sc-gsDKAQ hxODWG icon" viewBox="0 0 221.14 133.14"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polygon class="cls-1" points="221.14 43.1 221.14 0 110.57 90.04 0 0 0 43.1 110.57 133.14 221.14 43.1"/></g></g></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="sc-gsDKAQ hxODWG icon" viewBox="0 0 221.14 133.14"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><polygon class="cls-1" points="221.14 43.1 221.14 0 110.57 90.04 0 0 0 43.1 110.57 133.14 221.14 43.1"/></g></g></svg>
+                  </button>
                 </div>
               </div>
               {#if !(coinName === "USD" || coinName === "Fun Coupons")}
@@ -603,7 +584,7 @@
         </div>
       {:else}
         <div
-          class="sc-kMyqmI jDBJMt manual-control {$screen < 952
+          class="sc-kMyqmI jDBJMt manual-control {$newScreen < 1100
             ? 'mobile-view'
             : ''}"
         >
@@ -634,7 +615,7 @@
                 type="text"
                 value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
                   currentXAmount
-                ).toFixed(4) :currentXAmount}
+                ).toFixed(2) :currentXAmount}
               /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
               <div class="sc-kDTinF bswIvI button-group">
                 <button disabled={xBetting || inputDisabled} on:click={handleSetXAmount("/")}
@@ -781,7 +762,7 @@
                 {#if gameStatus === 2 && betInfo && betInfo.rate === 0}
                   <div class="monospace" style="width: 100%">
                     {`${parseFloat(betInfo.bet.mul(currentGamePayout)).toFixed(
-                      4
+                      2
                     )} ${betInfo.currencyName}`}
                   </div>
                   <div class="sub-text">(Cash out)</div>
@@ -1001,7 +982,7 @@
                 type="text"
                 value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
                   currentXAmount
-                ).toFixed(4) : currentXAmount}
+                ).toFixed(2) : currentXAmount}
               /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
               <div class="sc-kDTinF bswIvI button-group">
                 <button disabled={autoBetting} on:click={handleSetXAmount("/")}
@@ -1246,7 +1227,7 @@
                 type="text"
                 value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
                   autoBetInfo.stopOnWin
-                ).toFixed(4) : autoBetInfo.stopOnWin.toFixed(4)}
+                ).toFixed(2) : autoBetInfo.stopOnWin.toFixed(2)}
               /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
             </div>
           </div>
@@ -1290,7 +1271,7 @@
                 type="text"
                 value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
                   autoBetInfo.stopOnLose
-                ).toFixed(4) :autoBetInfo.stopOnLose.toFixed(4)}
+                ).toFixed(2) :autoBetInfo.stopOnLose.toFixed(2)}
               /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
             </div>
           </div>
@@ -1694,7 +1675,7 @@
     background-color: rgba(45, 48, 53, 0.5);
     opacity: 1;
     height: 2.75rem;
-    border-radius: 1.5rem;
+    /* border-radius: 1.5rem; */
     padding: 0px 1.375rem;
   }
   .lnBinR .input-control input {
@@ -1737,8 +1718,8 @@
   .bswIvI > button:first-child {
     margin-left: 0px;
     padding-left: 0.125rem;
-    border-top-left-radius: 1.125rem;
-    border-bottom-left-radius: 1.125rem;
+    /* border-top-left-radius: 1.125rem;
+    border-bottom-left-radius: 1.125rem; */
   }
 
   .bswIvI > button {
@@ -1751,8 +1732,8 @@
   }
   .bswIvI > button:last-child {
     padding-right: 0.125rem;
-    border-top-right-radius: 1.125rem;
-    border-bottom-right-radius: 1.125rem;
+    /* border-top-right-radius: 1.125rem;
+    border-bottom-right-radius: 1.125rem; */
   }
   .bswIvI > button:hover {
     background: rgb(60, 64, 74);
@@ -1767,7 +1748,7 @@
     flex-direction: column;
   }
   .gfnHxc .icon:first-of-type {
-    transform: rotate(-90deg);
+    transform: rotate(180deg);
     margin-bottom: 0.125rem;
   }
 
@@ -1777,7 +1758,7 @@
   }
 
   .gfnHxc .icon:last-of-type {
-    transform: rotate(90deg);
+    transform: rotate(0deg);
   }
   .iuHOYP .forms .input {
     width: 47%;
@@ -1820,7 +1801,7 @@
     background-color: rgba(45, 48, 53, 0.5);
     opacity: 1;
     height: 2.75rem;
-    border-radius: 1.5rem;
+    /* border-radius: 1.5rem; */
     padding: 0px 1.375rem;
   }
   .eQfpOS .input-control input {
@@ -1873,7 +1854,7 @@
     background-color: rgba(45, 48, 53, 0.5);
     opacity: 1;
     height: 2.75rem;
-    border-radius: 1.5rem;
+    /* border-radius: 1.5rem; */
     padding: 0px 1.375rem;
   }
   .lnBinR .input-control input {
@@ -1902,18 +1883,11 @@
     flex-direction: column;
   }
 
-  .gfnHxc .icon:first-of-type {
-    transform: rotate(-90deg);
-    margin-bottom: 0.125rem;
-  }
-
   .gfnHxc .icon {
     width: 0.75rem;
     height: 0.75rem;
   }
-  .gfnHxc .icon:last-of-type {
-    transform: rotate(90deg);
-  }
+
   .dqoGMw {
     flex-basis: 30%;
     -webkit-box-flex: 1;
@@ -2267,11 +2241,11 @@
     color: rgb(245, 246, 247);
     box-shadow: rgba(29, 34, 37, 0.1) 0px 4px 8px 0px;
     background-color: rgb(88, 26, 196);
-    background-image: conic-gradient(
+    /* background-image: conic-gradient(
       from 1turn,
       rgb(88, 26, 196),
       rgb(119, 60, 253)
-    );
+    ); */
   }
   .dDAoYq .action-close {
     margin-left: 1.25rem;

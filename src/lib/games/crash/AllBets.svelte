@@ -26,7 +26,7 @@
     PointElement,
     Filler
   );
-
+  $: salt = "Qede00000000000w00wd001bw4dc6a1e86083f95500b096231436e9b25cbdd0075c4"
   let canvasRef = null;
   let chart = null;
   function createChart(ctx) {
@@ -264,19 +264,15 @@
   <div class="sc-iwjdpV ikWSlH radio history-tab">
     <button
       on:click={() => (currentTab = 1)}
-      class={currentTab === 1 ? "is-active" : ""}
-      ><svg
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        class="sc-gsDKAQ hxODWG icon"
-        ><use xlink:href="#icon_Statistics"></use></svg
-      ></button
+      class={currentTab === 1 ? "is-active" : ""}>
+      <svg class="sc-gsDKAQ hxODWG icon" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 65.13" style="enable-background:new 0 0 122.88 65.13" xml:space="preserve"><g><path d="M4.67,65.13C2.09,65.13,0,62.83,0,60c0-2.83,2.09-5.13,4.67-5.13h14.71L45.15,12.5l-10.33,2.14 c-2.77,0.56-5.46-1.22-6.03-3.99c-0.56-2.77,1.22-5.46,3.99-6.03L54.4,0.15c1.28-0.32,2.68-0.15,3.9,0.6 c1.24,0.76,2.04,1.96,2.33,3.27l5.55,21.23c0.71,2.73-0.93,5.52-3.67,6.23c-2.73,0.71-5.52-0.93-6.23-3.67l-2.54-9.73l-22.39,36.8 h44.88l26.16-37.72l-10.33,1.56c-2.8,0.42-5.41-1.51-5.83-4.31c-0.42-2.8,1.51-5.41,4.31-5.83l22.05-3.32l0,0.01 c0.13-0.02,0.25-0.03,0.38-0.04l0,0l0.03,0l0.06,0l0.04,0l0.01,0l0.11,0l0,0l0.12,0h0.01h0l0.11,0l0.01,0l0.04,0l0.06,0l0.02,0l0,0 c0.92,0.05,1.83,0.34,2.64,0.9c1.15,0.8,1.88,1.99,2.12,3.26l4.4,21.6c0.56,2.77-1.22,5.47-3.99,6.03 c-2.77,0.56-5.46-1.22-6.03-3.99l-2.03-9.96L88.67,54.87h18.69c2.58,0,4.67,2.3,4.67,5.13c0,2.83-2.09,5.13-4.67,5.13H4.67 L4.67,65.13z"/></g></svg>
+      </button
     ><button
       on:click={() => (currentTab = 2)}
       class={currentTab === 2 ? "is-active" : ""}
-      ><svg
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Data"></use></svg
-      ></button
+      >
+      <svg class="sc-gsDKAQ hxODWG icon" id="Layer_1" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 122.88 104.01"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>stocks</title><path class="cls-1" d="M0,13.86a6,6,0,1,1,12.06,0V91.94H116.85a6,6,0,0,1,0,12.07H0V13.86ZM101.9,7.15l-3-3.88a2,2,0,0,1-.43-1.89C99-.19,100.8,0,102.09.05c3.65.26,11.72.84,13.6.91a2,2,0,0,1,2,2.49c-.38,1.9-1.59,10.55-2.22,14-.22,1.2-.58,2.77-2.11,2.88a2,2,0,0,1-1.72-.87l-3-3.88-1.23-1.56L92.39,25.41v.26a9.06,9.06,0,0,1-18.12,0c0-.2,0-.4,0-.6L63.78,17.48A9.05,9.05,0,0,1,52.85,17l-10.2,7.26A9.2,9.2,0,0,1,43,26.6a9,9,0,1,1-5.39-8.29l12-8.54A9.06,9.06,0,0,1,67.67,10c0,.2,0,.4,0,.59l10.51,7.6a9.06,9.06,0,0,1,10.55.15L102.48,7.89l-.58-.74Zm-.09,23.38H114.3a1.31,1.31,0,0,1,1.31,1.3V80.37a1.32,1.32,0,0,1-1.31,1.31H101.81a1.31,1.31,0,0,1-1.31-1.31V31.83a1.31,1.31,0,0,1,1.31-1.3ZM77.09,47.16H89.58a1.31,1.31,0,0,1,1.31,1.31v31.9a1.32,1.32,0,0,1-1.31,1.31H77.09a1.31,1.31,0,0,1-1.31-1.31V48.47a1.31,1.31,0,0,1,1.31-1.31ZM52.36,30.53h12.5a1.3,1.3,0,0,1,1.3,1.3V80.37a1.32,1.32,0,0,1-1.3,1.31H52.36a1.32,1.32,0,0,1-1.31-1.31V31.83a1.31,1.31,0,0,1,1.31-1.3ZM27.64,49.84H40.13a1.31,1.31,0,0,1,1.31,1.31V80.37a1.32,1.32,0,0,1-1.31,1.31H27.64a1.31,1.31,0,0,1-1.31-1.31V51.15a1.31,1.31,0,0,1,1.31-1.31Z"/></svg>
+      </button
     >
   </div>
   {#if currentTab === 1}
@@ -314,9 +310,10 @@
                 </td>
                 <td>{game.odds.toFixed(2)}x</td><td>
                   <div class="flex-center">
-                  <input type="text" readonly="" value={game.hash} /><a
+                  <input type="text" readonly="" value={game.hash} />
+                  <a
                     target="_blank"
-                    href="/verify/crash?hash={game.hash}">
+                    href="/provably-fair/calculation?tab=Crash&hash={game.hash}&salt={salt}">
                     Verify
                   </a>
                 </div>

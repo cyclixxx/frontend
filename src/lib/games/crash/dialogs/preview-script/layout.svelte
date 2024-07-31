@@ -76,7 +76,7 @@
           on:click={handleSave}
           class="sc-iqseJM sc-egiyK cBmlor fnKcEH button button-normal edit-confirm"
           >{#if saving}
-            <Loader />
+            <Loader color={"sd"}/>
           {:else}
             <div class="button-inner">Save</div>
           {/if}

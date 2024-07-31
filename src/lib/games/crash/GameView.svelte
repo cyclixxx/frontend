@@ -136,20 +136,17 @@
           <!-- svelte-ignore a11y-no-static-element-interactions -->
           <!-- svelte-ignore missing-declaration -->
           <!-- svelte-ignore a11y-click-events-have-key-events -->
-          <div
-            on:click={() => {
+          <div on:click={() => {
               dialogData = {
                 startScreen: "All Players",
                 gameID: game.gameId,
-              };
-            }}
+              } }}
             class="game-item {game.odds >= 10
               ? 'is-moon'
               : game.odds >= 2
                 ? 'is-double'
                 : ''}"
-            style=""
-          >
+            style="">
             <div class="dot"></div>
             <div>
               <div class="issus">{game.gameId}</div>
@@ -165,20 +162,24 @@
       </div>
     </div>
     {#if $screen > 650}
-      <button
-      on:click={() => (showTrends = !showTrends)}
-      class="sc-iLOkMM kCvsnZ flex-center"
-      ><svg
-        xmlns:xlink="http://www.w3.org/1999/xlink"
-        class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Trends"></use></svg
-      >
-      <div>Trends</div></button
-    >
+    <button on:click={() => (showTrends = !showTrends)}
+      class="sc-iLOkMM kCvsnZ flex-center">
+      <svg version="1.1" id="Layer_1" fill="currentColor" class="sc-gsDKAQ hxODWG icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 122.88 95.07"  xml:space="preserve">
+        <g>
+          <path class="st0" d="M46.06,26.43c21.77,0,55.05,0,76.82,0v15.8l-76.82,0V26.43L46.06,26.43L46.06,26.43z M7.47,48.01l23.24,22.35 V25.66L7.47,48.01L7.47,48.01z M122.88,79.28c-41.01,0-81.87,0-122.87,0L0,95.07c41.01,0,81.87,0,122.88,0V79.28L122.88,79.28z M122.88,52.85c-17.23,0-59.11,0-76.34,0l0,15.8h76.34V52.85L122.88,52.85z M122.88,0C97.46,0,25.44,0,0.02,0l0,15.8 c25.42,0,97.44,0,122.87,0L122.88,0L122.88,0L122.88,0z"/>
+        </g>
+      </svg>
+      <div>
+        Trends
+      </div>
+    </button>
     {/if}
 
   </div>
   <div class="sc-hcupDf dqwCNK game-box sc-eZKLwX gcZuwC">
-    <div class="sc-gLDmcm gnjHQb house-edge"><span>House Edge 1%</span></div>
+    <div class="sc-gLDmcm gnjHQb house-edge">
+      <span>House Edge 1%</span>
+    </div>
     <div bind:this={viewContainer} class="sc-eTwdGJ dgiRGq">
       {#if winData}
         <div class="Le">
@@ -188,38 +189,30 @@
               >{winData.profitAmount} {winData.currencyName}</span
             >
           </div>
-          <img
-            alt=""
-            src="https://static.nanogames.io/assets/win.b353e909.png"
-          />
+          <img  alt="" src="https://static.nanogames.io/assets/win.b353e909.png" />
         </div>
       {/if}
       {#if isMoon}
-        <div
-          class="sc-eTwdGJ eSrhSC"
-          style="background-position-y: -186px;"
-        ></div>
+        <div class="sc-eTwdGJ eSrhSC" style="background-position-y: -186px;"></div>
       {/if}
       <canvas bind:this={canvas} class="" width="1054" height="422"></canvas>
     </div>
-    <svg class="box-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 996 46"
-      ><defs
-        ><linearGradient id="gcardBg" x1="50%" x2="50%" y1="0%" y2="100%"
+    <svg class="box-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 996 46">
+      <defs><linearGradient id="gcardBg" x1="50%" x2="50%" y1="0%" y2="100%"
           ><stop offset="0%" stop-color="#31343C"></stop><stop
             offset="100%"
             stop-color="#1E2024"
             stop-opacity="0"
-          ></stop></linearGradient
-        ></defs
-      ><g opacity=".899"
-        ><path
+          ></stop></linearGradient>
+          </defs>
+          <g opacity=".899">
+          <path
           fill="url(#gcardBg)"
           fill-rule="evenodd"
           d="M0 0h996L892 46H96z"
           opacity=".598"
           transform="rotate(-180 498 23)"
-        ></path></g
-      ></svg
+        ></path></g></svg
     >
   </div>
 </div>
@@ -263,7 +256,7 @@
   }
   .kQtbd .recent-list-wrap {
     background-color: rgba(49, 52, 60, 0.4);
-    border-radius: 1.375rem;
+    /* border-radius: 1.375rem; */
     padding: 0px 0.625rem;
     margin: 0px 0.625rem;
   }
@@ -273,7 +266,7 @@
     margin: 0px 1.5rem;
     overflow: hidden;
     position: relative;
-    border-radius: 1.375rem;
+    /* border-radius: 1.375rem; */
   }
   .fIoiVG .recent-list {
     position: absolute;
@@ -314,17 +307,18 @@
     height: 100%;
   }
   .kQtbd .game-item .dot {
-    width: 1rem;
-    height: 1rem;
-    border-radius: 0.5rem;
+    width: .8rem;
+    height: .8rem;
+    border-radius: 0.1rem;
     background-color: #fb3d3d;
   }
   .kQtbd .game-item:hover::after {
     content: "";
-    background-color: rgba(255, 255, 255, 0.089);
+    background-color: rgba(131, 125, 125, 0.089);
     position: absolute;
     width: 100%;
     height: 100%;
+    border-radius: 7px;
   }
   .kQtbd .game-item .issus {
     font-size: 0.7rem;

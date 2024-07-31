@@ -165,18 +165,18 @@
   class="sc-dJjYzT JLcsN dragpop"
   style="left: {x}px; top: {y}px"
 >
-  <div
-    on:pointerdown={handlePointDown}
-    class="dragpop-title {dragging ? 'grabbing' : ''}"
-  >
+  <div  on:pointerdown={handlePointDown}
+    class="dragpop-title {dragging ? 'grabbing' : ''}">
     Live Stats
   </div>
-  <button on:click={() => dispatch("close")} class="dragpop-close hover"
-    ><svg
-      xmlns:xlink="http://www.w3.org/1999/xlink"
-      class="sc-gsDKAQ hxODWG icon"><use xlink:href="#icon_Close"></use></svg
-    ></button
-  >
+  <button on:click={() => dispatch("close")} class="dragpop-close fLASqZ hover">
+    <svg width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" size="20" class="css-1cvv4jt">
+      <title>Close</title>
+      <g id="cross" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+          <path d="M12.5490552,5.44652354 L10.0190552,7.97452354 L7.48905518,5.44452354 C7.12622749,5.06665914 6.58740604,4.91458087 6.08055863,5.04698605 C5.57371122,5.17939123 5.17811268,5.57557067 5.04645136,6.08261183 C4.91479005,6.58965298 5.0676588,7.1282507 5.44605518,7.49052354 L7.97505518,10.0205235 L5.44805518,12.5475235 C4.89838994,13.1154377 4.90565787,14.0192007 5.46438558,14.5782014 C6.0231133,15.137202 6.9268726,15.1449113 7.49505518,14.5955235 L10.0190552,12.0635235 L12.5470552,14.5925235 C12.9101461,14.9696355 13.4486088,15.1212283 13.9551127,14.9889326 C14.4616166,14.8566368 14.8571684,14.461085 14.9894642,13.9545811 C15.12176,13.4480771 14.9701671,12.9096144 14.5930552,12.5465235 L12.0690552,10.0215235 L14.5960552,7.49452354 C15.1457204,6.92660935 15.1384525,6.02284638 14.5797248,5.46384572 C14.0209971,4.90484505 13.1172378,4.89713573 12.5490552,5.44652354 Z" id="Close" fill="currentColor"></path>
+      </g>
+  </svg>
+    </button>
   <div class="dragpop-content">
     <div class="sc-dkPtRN jScFby scroll-view sc-eBTqsU eLzuEc">
       <div class="sc-zjkyB jElDBn">
@@ -185,18 +185,14 @@
           <svg
             xmlns:xlink="http://www.w3.org/1999/xlink"
             class="sc-gsDKAQ hxODWG icon"
-            ><use xlink:href="#icon_Arrow"></use></svg
-          >
+            ><use xlink:href="#icon_Arrow"></use></svg>
         </div>
       </div>
       <div class="sc-jHwEXd dQxvCn m-item">
         <div class="title flex-center">
-          <span>Bet</span><button on:click={handleResetStats} class="title-btn"
-            ><svg
-              xmlns:xlink="http://www.w3.org/1999/xlink"
-              class="sc-gsDKAQ hxODWG icon"
-              ><use xlink:href="#icon_Clear"></use></svg
-            ></button
+          <span>Bet</span><button on:click={handleResetStats} class="title-btn">
+            <svg version="1.1"   class="sc-gsDKAQ hxODWG icon" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="95.396px" height="122.88px" viewBox="0 0 95.396 122.88" enable-background="new 0 0 95.396 122.88" xml:space="preserve"><g><path fill-rule="evenodd" clip-rule="evenodd" d="M0,93.349l30.717,29.531l0.002-19.008H85.11v-21.05h-0.002V68.516l0.002-0.413 l-0.004-18.861L64.06,69.475l0.002,13.348h-33.34l-0.004-19.008L0,93.349L0,93.349z M95.396,29.533L64.68,0l-0.002,19.011 l-28.031,0l-0.533-0.002l-25.827,0l-0.002,1.025v25.833l0.002,23.394h3.293l17.754-17.069v-5.794l0.002-0.535V40.06h33.34 l0.004,19.006L95.396,29.533L95.396,29.533L95.396,29.533z"/></g></svg>
+            </button
           >
         </div>
         <div class="chart-cont">
@@ -206,8 +202,8 @@
               <img alt="" class="coin-icon" src={stats.token_img} />
               <div class="amount">
                 <span class="amount-str"
-                  >{removeTrailingZeros(stats.wagered.toFixed(6))}<span
-                    class="suffix">{getSuffix(stats.wagered.toFixed(6))}</span
+                  >{removeTrailingZeros(stats.wagered.toFixed(2))}<span
+                    class="suffix">{getSuffix(stats.wagered.toFixed(2))}</span
                   ></span
                 >
               </div>
@@ -223,9 +219,9 @@
               <img alt="" class="coin-icon" src={stats.token_img} />
               <div class="amount">
                 <span class="amount-str"
-                  >{removeTrailingZeros(Math.abs(stats.profit).toFixed(6))}<span
+                  >{removeTrailingZeros(Math.abs(stats.profit).toFixed(2))}<span
                     class="suffix"
-                    >{getSuffix(Math.abs(stats.profit).toFixed(6))}</span
+                    >{getSuffix(Math.abs(stats.profit).toFixed(2))}</span
                   ></span
                 >
               </div>

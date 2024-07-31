@@ -171,8 +171,7 @@ const dive = (sign) => {
                 class="">Min</button
               >
               <div class="sc-kLwhqv eOA-dmL slider">
-                <div
-                  class="slider-after"
+                <div  class="slider-after"
                   style="transform: scaleX(100.001001);"
                 ></div>
                 <input

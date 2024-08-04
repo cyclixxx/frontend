@@ -29,7 +29,7 @@ export default class CrashGameGraph extends EventEmitter {
 
   static XAxisPlotMinValue = 10000;
   static YAxisSizeMultiplier = 2;
-  static fontFamily = 'Roboto Mono, monospace';
+  static fontFamily = "Montserrat";
   static RenderInterval = 3;
 
   constructor(game) {
@@ -222,7 +222,7 @@ export default class CrashGameGraph extends EventEmitter {
 
     if (this.game.status === GameStatus.PROGRESS) {
       this.ctx.fillStyle = this.colors[0];
-      this.ctx.font = `bold ${this.fontSizePx(7)} ${CrashGameGraph.fontFamily}`;
+      this.ctx.font = `bold ${this.fontSizePx(8)} ${CrashGameGraph.fontFamily}`;
 
       this.ctx.fillText(
         this.currentGamePayout.toFixed(2) + "×",
@@ -230,8 +230,8 @@ export default class CrashGameGraph extends EventEmitter {
         (2 * this.height) / 5
       );
     } else if (this.game.status === GameStatus.ENDED) {
-      this.ctx.font = `bold ${this.fontSizePx(4)} ${CrashGameGraph.fontFamily}`;
-      this.ctx.fillStyle = this.colors[5];
+      this.ctx.font = `bold ${this.fontSizePx(5)} ${CrashGameGraph.fontFamily}`;
+      this.ctx.fillStyle = this.colors[4];
 
       this.ctx.fillText(
         "Bang" + " @" + this.game.rate.toFixed(2) + "×",
@@ -239,7 +239,7 @@ export default class CrashGameGraph extends EventEmitter {
         (2 * this.height) / 5
       );
     } else if (this.game.status === GameStatus.STARTING) {
-      this.ctx.font = `bold ${this.fontSizePx(5)} ${CrashGameGraph.fontFamily}`;
+      this.ctx.font = `bold ${this.fontSizePx(4)} ${CrashGameGraph.fontFamily}`;
       this.ctx.fillStyle = this.colors[0];
 
       const seconds = (this.game.startTime - Date.now()) / 1000;

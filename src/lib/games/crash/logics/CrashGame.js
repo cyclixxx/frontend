@@ -1,13 +1,18 @@
-import { makeObservable, observable, computed, action, runInAction,reaction } from "mobx";
+import {
+  makeObservable,
+  observable,
+  computed,
+  action,
+  runInAction,
+} from "mobx";
 import CryptoJS from "crypto-js";
 import BaseGame from "./BaseGame";
 import CrashGameGraph from "./CrashGameGraph";
 import CrashXBetHandler from "./CrashXBetHandler";
 import Decimal from "decimal.js";
 import { sortedIndexBy } from "lodash";
-import UserStore from "$lib/logics/UserStore";
 import WalletManager from "$lib/logics/WalletManager";
-import { serverUrl } from "$lib/backendUrl";
+import { serverUrl } from "../../../backendUrl";
 import axios from "axios";
 
 function Bn(seed) {
@@ -66,25 +71,25 @@ async function currencInfo() {
     normalBetLimits: [
       {
         currencyName: "Fun Coupons",
-        minAmount: 0.0012,
-        maxAmount: 0.2,
+        minAmount: 0.1,
+        maxAmount: 100_000,
       },
       {
         currencyName: "USD",
-        minAmount: 0.0004,
-        maxAmount: 0.09,
+        minAmount: 0.1,
+        maxAmount: 5000,
       },
     ],
     xbetLimits: [
       {
         currencyName: "Fun Coupons",
-        minAmount: 0.0012,
-        maxAmount: 0.2,
+        minAmount: 0.1,
+        maxAmount: 100_000,
       },
       {
         currencyName: "USD",
-        minAmount: 0.0004,
-        maxAmount: 0.09,
+        minAmount: 0.1,
+        maxAmount: 5000,
       },
     ],
   };
@@ -96,12 +101,15 @@ function logError(err) {
 export default class CrashGame extends BaseGame {
   static MAX_HISTORY = 2e3;
   constructor() {
-    super({ name: "crash",
+    super(
+      {
+        name: "crash",
         namespace: serverUrl(),
         validateLink: "/verify/crash.html",
         fairLink: "/crash_help/fairness",
-      }, () => null );
-    this.user = null;
+      },
+      () => null
+    );
     this.gameId = 0;
     this.elapsed = 0;
     this.rate = 0;
@@ -119,7 +127,8 @@ export default class CrashGame extends BaseGame {
     this.nextBetInfo = null;
     this.paused = false;
     this.checkPauseTimer = 0;
-    this.salt = "Qede00000000000w00wd001bw4dc6a1e86083f95500b096231436e9b25cbdd0075c4";
+    this.salt =
+      "Qede00000000000w00wd001bw4dc6a1e86083f95500b096231436e9b25cbdd0075c4";
     this.xbet = new CrashXBetHandler(this);
     this.showXbetLimit = true;
     this.graph = new CrashGameGraph(this);
@@ -154,15 +163,6 @@ export default class CrashGame extends BaseGame {
       setRate: action,
       setHistory: action,
     });
-    this.user = UserStore.getInstance().user;
-    reaction(
-      () => UserStore.getInstance().user,
-      (user) => {
-        if (user) {
-          this.user = user;
-        }
-      }
-    );
     this.bindEvent();
   }
 
@@ -334,14 +334,15 @@ export default class CrashGame extends BaseGame {
     const player = this.playersDict[userId];
     if (player) {
       if (player.userId === this.user.userId) {
-        this.betInfo && this.setBetInfo({ ...this.betInfo, rate });
+        console.log('Setting bet rate on escape=> ', rate)
+        this.setBetInfo({ ...this.betInfo, rate });
         this.emit("escapeSuccess", {
           amount: this.betInfo.bet,
           odds: this.betInfo.rate,
           currencyName: this.betInfo.currencyName,
           currencyImage: this.betInfo.currencyImage,
         });
-        WalletManager.getInstance().createDeduction(this.betInfo.bet.mul(rate).add(this.betInfo.bet).negated(), this.betInfo.currencyName);
+        WalletManager.getInstance().createDeduction(this.betInfo.bet.mul(rate).negated(), this.betInfo.currencyName);
       }
 
       if (force) {
@@ -411,6 +412,7 @@ export default class CrashGame extends BaseGame {
         userBet &&
         this.betInfo
       ) {
+        console.log('Setting user bet rate => ', userBet)
         this.betInfo.rate = userBet.rate;
         player.rate = this.betInfo.rate;
         settleData.wager = player.bet.toNumber();
@@ -597,6 +599,7 @@ export default class CrashGame extends BaseGame {
   }
 
   async handleBetCrash(betData, scriptId) {
+
     if (!betData) {
       betData = {
         bet: this.amount,

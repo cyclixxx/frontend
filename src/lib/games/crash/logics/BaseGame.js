@@ -1,14 +1,16 @@
 import Decimal from "decimal.js";
-import GameEventHandler from "./GameEventHandler";
+import CasinoGame from "$lib/logics/CasinoGame";
 import UserStore from "$lib/logics/UserStore";
-import { serverUrl } from "$lib/backendUrl";
+import { serverUrl } from "$lib/backendUrl"
 import { action, makeObservable, observable } from "mobx";
 import axios from "axios";
+import ScriptManager from "./ScriptManager";
 
-export default class BaseGame extends GameEventHandler {
+export default class BaseGame extends CasinoGame {
   static MAX_MYBET = 10;
   constructor(e, t) {
     super(e, t);
+    this.script = new ScriptManager(this);
     this.myBets = [];
     this.onMybet = this.onMybet.bind(this);
     this.loadMybet = this.loadMybet.bind(this);
@@ -28,7 +30,7 @@ export default class BaseGame extends GameEventHandler {
   }
 
   async loadMybet() {
-    const response = await axios.post(serverUrl()+"/api/user/crash-game/my-bet/", {
+    const response = await axios.post(serverUrl() + "/api/user/crash-game/my-bet/", {
       size: 10
     }, {
       headers: {
@@ -47,14 +49,17 @@ export default class BaseGame extends GameEventHandler {
     const n = this.myBets.reduce((e, t) => ((e[t.betId] = t), e), {});
     const i = BaseGame.formatBetData(bets.filter(b => b.userId === UserStore.getInstance().user.userId)).filter((e) => !n[e.betId]);
     const a = i.concat(this.myBets);
+
     this.setMyBets(a.slice(0, BaseGame.MAX_MYBET));
-    i.forEach((e) =>
+    i.forEach((e) => {
+      console.log('On my bet end > ', e)
       this.emit("betEnd", {
         amount: new Decimal(e.betAmount),
         odds: e.odds,
         currencyName: e.currencyName,
         currencyImage: e.currencyImage
       })
+    }
     );
   }
 

@@ -284,6 +284,7 @@
         if (canXbet[type]) {
           if (placingXBet[type]) return;
           placingXBet[type] = true;
+          
           xBet
             .handleBetByType(type)
             .catch((err) => {

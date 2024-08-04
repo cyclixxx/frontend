@@ -22,5 +22,8 @@ let image = new URL('../lib/images/Empty list image.png', import.meta.url).href
 .empty-container p{
     margin-top: 10px;
 }
+.empty-container img {
+    width: 100px;
+}
 
 </style>

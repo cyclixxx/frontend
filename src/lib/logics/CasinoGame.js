@@ -1,15 +1,15 @@
 import Decimal from "decimal.js";
-import EventEmitter from "$lib/logics/EventEmitter";
+import EventEmitter from "./EventEmitter";
 import { action, autorun, makeObservable, observable, reaction } from "mobx";
 import SocketManager from "./SocketManager";
-import ScriptManager from "./ScriptManager";
 import SoundManager from "./SoundManager";
 import PersistentStorage from "./PersistentStorage";
-import WalletManager from "$lib/logics/WalletManager";
-import UserStore from "$lib/logics/UserStore";
+import WalletManager from "./WalletManager";
+import UserStore from "./UserStore";
+import BaseScriptManager from "./BaseScriptManager";
 
 // Game Handler Base Class
-const GameEventHandler = class extends EventEmitter {
+const CasinoGame = class extends EventEmitter {
   constructor(config, view) {
     super();
 
@@ -19,12 +19,12 @@ const GameEventHandler = class extends EventEmitter {
     this.namespace = "";
     this.isInited = false;
     this.initPms = null;
-    this.isActived = false;
-    this.currencyName = "BTC";
-    this.currencyImage = "https://assets.coingecko.com/coins/images/1/large/bitcoin.png?1696501400";
+    this.isActive = false;
+    this.currencyName = "PPF";
+    this.currencyImage = "https://res.cloudinary.com/dxwhz3r81/image/upload/v1697828376/ppf_logo_ntrqwg.png";
     this.amount = new Decimal(1);
     this.isBetting = false;
-    this.controlIdx = 0;
+    this.controlIdx = 1;
     // this.jackpot = {};
     this.config = config;
     this.gameInfo = {};
@@ -39,13 +39,15 @@ const GameEventHandler = class extends EventEmitter {
 
     // Bind properties
     makeObservable(this, {
-      isActived: observable,
+      isActive: observable,
       currencyName: observable,
       currencyImage: observable,
       amount: observable,
       isBetting: observable,
       controlIdx: observable,
       setAmount: action,
+      setControlIdx: action,
+      setBetStatus: action,
       // jackpot: observable,
     });
 
@@ -72,7 +74,7 @@ const GameEventHandler = class extends EventEmitter {
     this.setAmount = this.setAmount.bind(this);
     this.onBetEnd = this.onBetEnd.bind(this);
     this.syncCurrency = this.syncCurrency.bind(this);
-    this.script = new ScriptManager(this);
+    this.script = new BaseScriptManager(this);
     this.handleBet = this.handleBet.bind(this);
 
     // Initialize socket
@@ -132,7 +134,15 @@ const GameEventHandler = class extends EventEmitter {
     });
 
     this.emit("bet");
-
+    this.user = UserStore.getInstance().user;
+    reaction(
+      () => UserStore.getInstance().user,
+      (user) => {
+        if (user) {
+          this.user = user;
+        }
+      }
+    );
     reaction(
       () => WalletManager.getInstance().current,
       () => {
@@ -169,7 +179,9 @@ const GameEventHandler = class extends EventEmitter {
       return this.keymaster;
     });
   }
-
+  setControlIdx(_v) {
+    this.controlIdx = _v;
+  }
   // Set bet amount
   setAmount(amount, force = true) {
     if (amount.gte(this.maxAmount)) {
@@ -248,6 +260,7 @@ const GameEventHandler = class extends EventEmitter {
   // Bet validations
   async beforeBetCheck(amount, currency = this.currencyName) {
     if (!UserStore.getInstance().user) {
+      window.location.href = "/login";
       throw new Error("You need to be signed in");
     }
     if (!amount) throw new Error("Set a bet amount");
@@ -339,16 +352,16 @@ const GameEventHandler = class extends EventEmitter {
     if (!wallet) throw new Error(`${currency} Wallet not found!`);
     const {minAmount, maxAmount} = wallet;
     if (amount < minAmount) {
-      throw new Error(`Minimum bet amount is ${minAmount.toFixed(7)}`)
+      throw new Error(`Minimum bet amount is ${minAmount.toFixed(4)}`)
     }
     if (amount > maxAmount) {
-      throw new Error(`Maximum bet amount is ${maxAmount.toFixed(7)}`)
+      throw new Error(`Maximum bet amount is ${maxAmount.toFixed(4)}`)
     }
   }
 
   checkBetCurrency(currency) {
-    if (currency !== "Fun Coupons" && currency !== "USD" ) {
-      throw new Error('Select Fun Coupons or Fun Coupons to place bets!');
+    if (currency !== "Fun Coupons" && currency !== "USD") {
+      throw new Error('Select Fun Coupons or USD to place bets!');
     }
   }
 
@@ -366,7 +379,7 @@ const GameEventHandler = class extends EventEmitter {
       //   throw new Error();
       // }
       this.settings.ignoreMaxProfit = true; // ignore;
-    } 
+    }
   }
 
   // Max profit notify
@@ -406,7 +419,7 @@ const GameEventHandler = class extends EventEmitter {
   // Helper to wrap handler if active
   withActive(handler) {
     return (...args) => {
-      if (!!this.isActived) {
+      if (!!this.isActive) {
         return handler(...args);
       }
     };
@@ -416,7 +429,7 @@ const GameEventHandler = class extends EventEmitter {
   syncCurrency() {
     const curr = WalletManager.getInstance().current;
     if (
-      this.isActived &&
+      this.isActive &&
       !this.isBetting &&
       !this.script.isRunning &&
       (this.currencyName != curr.currencyName || !this.firstSync)
@@ -424,6 +437,7 @@ const GameEventHandler = class extends EventEmitter {
       this.firstSync = true;
       this.currencyName = curr.currencyName;
       this.currencyImage = curr.currencyImage;
+      this.setAmount(this.minAmount);
       this.emit("currency_changed");
     }
   }
@@ -480,8 +494,8 @@ const GameEventHandler = class extends EventEmitter {
 
   // Activate game
   active() {
-    if (!this.isActived) {
-      this.isActived = true;
+    if (!this.isActive) {
+      this.isActive = true;
       this.sounds.active = true;
       this.enableHotkeys();
       this.syncCurrency();
@@ -494,8 +508,8 @@ const GameEventHandler = class extends EventEmitter {
 
   // Deactivate game
   deactivate() {
-    if (this.isActived) {
-      this.isActived = false;
+    if (this.isActive) {
+      this.isActive = false;
       this.sounds.active = false;
       this.enableHotkeys(false);
       if (!this.disableAutoConnect) {
@@ -508,7 +522,7 @@ const GameEventHandler = class extends EventEmitter {
 
   // Static method to register game details
   static registDetail(name, detail) {
-    GameEventHandler.details[name] = detail;
+    CasinoGame.details[name] = detail;
   }
 };
-export default GameEventHandler;
+export default CasinoGame;

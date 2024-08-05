@@ -509,7 +509,7 @@ export default class CrashGame extends BaseGame {
 
       this.players = [];
       this.displayedPlayers = [];
-      this.playerDict = {};
+      this.playersDict = {};
       this.setBetInfo(null);
 
       const parsedPlayers = joinResponse.players.map((player) => {
@@ -537,8 +537,7 @@ export default class CrashGame extends BaseGame {
       });
 
       this.addPlayer(parsedPlayers);
-
-      const currentPlayer = this.playerDict[this.user?.userId];
+      const currentPlayer = this.playersDict[this.user?.userId];
       if (currentPlayer) {
         this.setBetInfo({
           bet: currentPlayer.bet,
@@ -548,7 +547,8 @@ export default class CrashGame extends BaseGame {
           currencyImage: currentPlayer.currencyImage,
         });
         if (status === 2) {
-          WalletManager.getInstance().createDeduction(currentPlayer.bet, currentPlayer.currencyName);
+          if (currentPlayer.rate) WalletManager.getInstance().createDeduction(currentPlayer.bet.mul(currentPlayer.rate).sub(currentPlayer.bet).negated(), currentPlayer.currencyName);
+          else WalletManager.getInstance().createDeduction(currentPlayer.bet, currentPlayer.currencyName);
         }
       }
 

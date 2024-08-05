@@ -13,6 +13,7 @@
   import Empty from "$lib/empty.svelte";
   $: myBets = [];
   let game = null;
+
   $: {
     const _game = $crashGame;
     if (!game && _game) {

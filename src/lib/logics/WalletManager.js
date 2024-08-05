@@ -64,17 +64,16 @@ class Currency {
         ...wallet,
         balance: this.available,
       }));
-    } else if (this.currencyName === "Fun Coupons") {
+    } 
+    else if (this.currencyName === "Fun Coupons") {
       fun_coupon.update((wallet) => ({
         ...wallet,
         balance: this.available,
       }));
     }
-
     default_Wallet.update((wallet) => ({
       ...wallet,
-      balance:
-        this.currencyName === wallet.coin_name
+      balance: this.currencyName === wallet.coin_name
           ? this.available
           : wallet.balance,
     }));
@@ -165,6 +164,7 @@ export default class WalletManager extends EventEmitter {
     fun_coupon.subscribe((wallet) => {
       updateWallet(wallet);
     });
+
     default_Wallet.subscribe((wallet) => {
       updateWallet(wallet);
       if (wallet && wallet.coin_name) {
@@ -191,12 +191,7 @@ export default class WalletManager extends EventEmitter {
     this.current = _c;
   }
 
-  createDeduction(
-    amount,
-    currency = this.current.currencyName,
-    type = "normal",
-    timer = 2e4
-  ) {
+  createDeduction( amount,  currency = this.current.currencyName,  type = "normal", timer = 2e4) {
     let id = Date.now() % 20736e5;
     if (id === lastDeductionId) {
       id++;

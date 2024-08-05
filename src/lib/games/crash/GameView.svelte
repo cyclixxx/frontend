@@ -189,7 +189,7 @@
               >{winData.profitAmount} {winData.currencyName}</span
             >
           </div>
-          <img  alt="" src="https://static.nanogames.io/assets/win.b353e909.png" />
+          <!-- <img  alt="" src="https://static.nanogames.io/assets/win.b353e909.png" /> -->
         </div>
       {/if}
       {#if isMoon}

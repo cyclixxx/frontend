@@ -4,7 +4,7 @@ import BaseGame from "./BaseGame";
 import CrashGameGraph from "./CrashGameGraph";
 import CrashXBetHandler from "./CrashXBetHandler";
 import Decimal from "decimal.js";
-import { sortedIndexBy } from "lodash";
+import { isPlainObject, sortedIndexBy } from "lodash";
 import UserStore from "$lib/logics/UserStore";
 import WalletManager from "$lib/logics/WalletManager";
 import { serverUrl } from "$lib/backendUrl";
@@ -330,7 +330,6 @@ export default class CrashGame extends BaseGame {
 
   onEscape({ userId, rate, force }) {
     if (this.status !== 2) return;
-
     const player = this.playersDict[userId];
     if (player) {
       if (player.userId === this.user.userId) {

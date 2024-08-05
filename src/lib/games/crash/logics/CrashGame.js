@@ -552,7 +552,7 @@ export default class CrashGame extends BaseGame {
         }
       }
 
-      this.xbet.init2(joinResponse.xBets);
+      this.xbet.init2(joinResponse.xBets, status);
 
       // this.onJackpotChange(jackpotResponse); // data.jackpot == {currency: number}
     });

@@ -334,7 +334,6 @@ export default class CrashGame extends BaseGame {
     const player = this.playersDict[userId];
     if (player) {
       if (player.userId === this.user.userId) {
-        console.log('Setting bet rate on escape=> ', rate)
         this.setBetInfo({ ...this.betInfo, rate });
         this.emit("escapeSuccess", {
           amount: this.betInfo.bet,
@@ -412,7 +411,6 @@ export default class CrashGame extends BaseGame {
         userBet &&
         this.betInfo
       ) {
-        console.log('Setting user bet rate => ', userBet)
         this.betInfo.rate = userBet.rate;
         player.rate = this.betInfo.rate;
         settleData.wager = player.bet.toNumber();
@@ -549,6 +547,9 @@ export default class CrashGame extends BaseGame {
           currencyName: currentPlayer.currencyName,
           currencyImage: currentPlayer.currencyImage,
         });
+        if (status === 2) {
+          WalletManager.getInstance().createDeduction(currentPlayer.bet, currentPlayer.currencyName);
+        }
       }
 
       this.xbet.init2(joinResponse.xBets);

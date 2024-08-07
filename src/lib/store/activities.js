@@ -16,6 +16,9 @@ export let loading = writable(_loading)
 let _isLoggin = false
 export let isLoggin = writable(_isLoggin)
 
+let _isLiveStat = false
+export let isLiveStat = writable(_isLiveStat)
+
 export const handleResposeMessages = ((type, res)=>{
     message.set([{type: type, message: res}])
     loading.set(false)

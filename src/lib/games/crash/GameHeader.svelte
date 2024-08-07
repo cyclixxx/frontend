@@ -7,7 +7,7 @@
   }
 </script>
 
-<!-- <div class="sc-hKumaY FHHZH">
+<div class="sc-hKumaY FHHZH">
   <div class="sc-cxpSdN kQfmQV tabs">
     <div class="tabs-navs">
       <button on:click={changeGameType(1)} class="tabs-nav {$crashGameType === 1 ? 'is-active' : ''}">Classic</button>
@@ -15,10 +15,10 @@
       <div class="bg" style="left: {$crashGameType === 1 ? '0': '50'}%; right: {$crashGameType === 1 ? '50' : '0'}%;"></div>
     </div>
   </div>
-</div> -->
+</div>
 
 <style>
-  /* .FHHZH {
+  .FHHZH {
     margin: 0px 0.625rem 0.75rem;
     display: flex;
     -webkit-box-align: center;
@@ -31,6 +31,16 @@
 
   .kQfmQV button.tabs-nav {
     width: 5.625rem;
-  } */
+  }
+
+  .kQfmQV .tabs-nav.is-active {
+    color: rgb(245, 246, 247);
+    font-weight: bold;
+  }
+
+  .kQfmQV button.tabs-nav {
+    width: 5.625rem;
+  }
+
 
 </style>

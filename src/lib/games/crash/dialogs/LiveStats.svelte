@@ -1,6 +1,7 @@
 <script>
    import {crashGame } from "../store";
   import { browser } from "$app/environment";
+  import { isLiveStat} from "$lib/store/activities";
   import { createEventDispatcher, onDestroy, onMount } from "svelte";
   import useFormatter from "$lib/game-hook/formatter";
   import useLiveStats from "$lib/game-hook/livestats";
@@ -169,7 +170,7 @@
     class="dragpop-title {dragging ? 'grabbing' : ''}">
     Live Stats
   </div>
-  <button on:click={() => dispatch("close")} class="dragpop-close fLASqZ hover">
+  <button on:click={() => isLiveStat.set(false)} class="dragpop-close fLASqZ hover">
     <svg width="20px" height="20px" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" size="20" class="css-1cvv4jt">
       <title>Close</title>
       <g id="cross" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -254,7 +255,7 @@
   }
   .JLcsN {
     position: fixed;
-    z-index: 999999999;
+    z-index: 999;
     left: 0px;
     top: 0px;
     min-width: 12.5rem;

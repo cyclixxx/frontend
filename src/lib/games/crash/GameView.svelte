@@ -10,6 +10,7 @@
   const { autorun } = connect();
   import Decimal from "decimal.js";
   import pkg from "lodash";
+  const winImage = new URL('../../game-images/win (1).webp', import.meta.url).href;
   const { debounce } = pkg;
   import { crashGame } from "./store";
   function observeElementSizeChange(callback, delay = 0) {
@@ -189,7 +190,7 @@
               >{winData.profitAmount} {winData.currencyName}</span
             >
           </div>
-          <!-- <img  alt="" src="https://static.nanogames.io/assets/win.b353e909.png" /> -->
+          <img  alt="" src="{winImage}" />
         </div>
       {/if}
       {#if isMoon}

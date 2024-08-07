@@ -4,6 +4,9 @@
   import { UseFetchData } from "$lib/game-hook/useFetchData";
   import { handleAuthToken } from "$lib/store/routes";
   import { createEventDispatcher, onMount } from "svelte";
+  const win = new URL('../../../../game-images/win.webp', import.meta.url).href;
+  const lose = new URL('../../../../game-images/lose.webp', import.meta.url).href;
+
   const dispatch = createEventDispatcher();
   export let betID = "";
   $: salt = "Qede00000000000w00wd001bw4dc6a1e86083f95500b096231436e9b25cbdd0075c4"
@@ -35,9 +38,9 @@
   <div class="sc-dkPtRN jScFby scroll-view sc-iRFsWr bUSPeg">
     <div class="sc-bvFjSx bAgSeR">
       <img alt="" class="win-state"
-        src="https://static.nanogames.io/assets/{details.won
-          ? 'win.431b83d6.png'
-          : 'lose.b4ff48b7.png'}"
+        src="{details.won
+          ? win
+          : lose}"
       />
       <div class="sc-emDsmM fkioFo game-share">
       </div>
@@ -242,7 +245,7 @@
   .bAgSeR .rt_info .verified {
     color: rgb(255, 255, 255);
     margin-left: 0.5rem;
-    background: url(https://static.nanogames.io/assets/verified.312ca177.svg)
+    background: url(../../../../game-images/verified.312ca177.svg)
       left center / auto 0.875rem no-repeat;
     padding-left: 1rem;
     font-weight: bold;

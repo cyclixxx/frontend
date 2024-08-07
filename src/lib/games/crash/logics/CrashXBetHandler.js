@@ -1,6 +1,6 @@
-import { debounce, sortBy, throttle } from "lodash";
-import AutoBet from "./AutoBet";
-import GameEventHandler from "./GameEventHandler";
+import { sortBy, throttle } from "lodash";
+import AutoBet from "$lib/logics/AutoBet";
+import CasinoGame from "$lib/logics/CasinoGame";
 import {
   action,
   makeObservable,
@@ -13,7 +13,7 @@ import { serverUrl } from "$lib/backendUrl";
 import WalletManager from "$lib/logics/WalletManager";
 import UserStore from "$lib/logics/UserStore";
 // Crash Game Bet Handlers
-export default class CrashXBetHandler extends GameEventHandler {
+export default class CrashXBetHandler extends CasinoGame {
   constructor(game) {
     super({ name: "crash_xbet", namespace: serverUrl() }, () => null);
 
@@ -52,7 +52,6 @@ export default class CrashXBetHandler extends GameEventHandler {
       addBets: action,
       addMyBet: action,
       updateNextBets: action,
-      setBetStatus: action,
       setAutoBetType: action,
     });
     this.autoBet = new AutoBet(
@@ -202,7 +201,7 @@ export default class CrashXBetHandler extends GameEventHandler {
       if (myRedBet.status === 1) {
         this.emit("win", myRedBet);
         WalletManager.getInstance().createDeduction(
-          myRedBet.bet.mul(rate).add(myRedBet.bet).negated(),
+          myRedBet.bet.mul(1.96).negated(),
           myRedBet.currencyName
         );
       }
@@ -213,7 +212,7 @@ export default class CrashXBetHandler extends GameEventHandler {
       if (myGreenBet.status === 1) {
         this.emit("win", myGreenBet);
         WalletManager.getInstance().createDeduction(
-          myGreenBet.bet.mul(rate).add(myGreenBet.bet).negated(),
+          myGreenBet.bet.mul(2).negated(),
           myGreenBet.currencyName
         );
       }
@@ -237,7 +236,7 @@ export default class CrashXBetHandler extends GameEventHandler {
       if (myMoonBet.status === 1) {
         this.emit("win", myMoonBet);
         WalletManager.getInstance().createDeduction(
-          myMoonBet.bet.mul(rate).add(myMoonBet.bet).negated(),
+          myMoonBet.bet.mul(10).negated(),
           myMoonBet.currencyName
         );
       }

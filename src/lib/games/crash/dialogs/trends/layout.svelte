@@ -352,7 +352,7 @@
 } */
   }
   .dragpop {
-    z-index: 888888;
+    z-index: 888;
   }
   .cEhaBs .help-ico {
     margin-right: 0.25rem;

@@ -39,8 +39,11 @@
   $: xBetInfo = null;
   $: betRate = 1;
   $: currentAmount = "100.00";
+  let currentAmountValue = "100";
   $: currentXAmount = "1.0";
+  let currentXAmountValue = '1.0';
   $: currentMaxRate = 100000;
+  let currentMaxRateValue = '100000';
   $: xBetting = false;
   $: betting = false;
   $: inputDisabled = false;
@@ -78,8 +81,11 @@
       xBet = game.xbet;
       autoBet = xBet.autoBet;
       currentMaxRate = game.maxRate;
+      currentMaxRateValue = currentMaxRate;
       currentAmount = game.amount.toFixed(2);
       currentXAmount = xBet.amount.toFixed(2);
+      currentXAmountValue = currentXAmount
+      currentAmountValue = currentAmount;
       autoBetInfo = {
         numberOfBets: autoBet.times,
         stopOnLose: new Decimal(autoBet.stopOnLose).toDP(8),
@@ -208,6 +214,7 @@
             new Decimal(WalletManager.getInstance().dict[coinName].maxAmount)
           );
         currentAmount = game.amount.toFixed(2);
+        if (opr !== "=")currentAmountValue = currentAmount;
       }
     };
   };
@@ -228,6 +235,7 @@
             new Decimal(WalletManager.getInstance().dict[coinName].maxAmount)
           );
         currentXAmount = xBet.amount.toFixed(2);
+        if (opr !== "=") currentXAmountValue = currentXAmount;
       }
     };
   };
@@ -284,6 +292,7 @@
         if (canXbet[type]) {
           if (placingXBet[type]) return;
           placingXBet[type] = true;
+          
           xBet
             .handleBetByType(type)
             .catch((err) => {
@@ -300,6 +309,7 @@
       new Decimal(e.currentTarget.value).toDP(2).toNumber()
     );
     currentMaxRate = $crashGame.maxRate.toFixed(2);
+    // currentMaxRateValue = currentMaxRate;
   };
   const updateAutoBetInfo = (field, value) => {
     autoBetInfo = { ...autoBetInfo, [field]: value };
@@ -483,21 +493,20 @@
                   </div>
                 </div>
                 <div class="label-amount">
-                  {#if canViewInFiat} {currentAmount} {coinName}
+                  <!-- {#if canViewInFiat} {currentAmount} {coinName}
                   {:else} {WalletManager.getInstance().amountToFiatString( currentAmount )}
-                  {/if}
+                  {/if} -->
                 </div>
               </div>
               <div class="input-control {isFocused.bet ? 'is-focus' : ''}">
                 <input on:focus={() => (isFocused = { ...isFocused, bet: true })}
                   on:blur={() => (isFocused = { ...isFocused, bet: false })}
                   on:input={inputValidate}
+                  on:blur={() => currentAmountValue = currentAmount}
                   disabled={betting || inputDisabled}
                   on:keyup={handleSetAmount("=")}
                   type="text"
-                  value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
-                    currentAmount
-                  ).toFixed(2) : currentAmount}
+                  value={currentAmountValue}
                 />
                 <img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
                 <div class="sc-kDTinF bswIvI button-group">
@@ -573,9 +582,10 @@
                   on:focus={() => (isFocused = { ...isFocused, maxRate: true })}
                   on:blur={() => (isFocused = { ...isFocused, maxRate: false })}
                   on:input={inputValidate}
+                  on:blur={() => currentMaxRateValue = currentMaxRate}
                   on:input={handleChangeMaxRateChange}
                   type="number"
-                  value={currentMaxRate}
+                  value={currentMaxRateValue}
                 />
                 <div class="payout-txt">×</div>
               </div>
@@ -596,13 +606,13 @@
             <div class="input-label">
               <div class="sc-gsFzgR bxrMFn label"><div>Amount</div></div>
               <div class="label-amount">
-                {#if canViewInFiat}
+                <!-- {#if canViewInFiat}
                   {currentXAmount} {coinName}
                 {:else}
                   {WalletManager.getInstance().amountToFiatString(
                     currentXAmount
                   )}
-                {/if}
+                {/if} -->
               </div>
             </div>
             <div class="input-control {isFocused.trend ? 'is-focus' : ''}">
@@ -611,11 +621,10 @@
                 on:blur={() => (isFocused = { ...isFocused, trend: false })}
                 on:input={inputValidate}
                 disabled={xBetting || inputDisabled}
+                on:blur={() => currentXAmountValue = currentXAmount}
                 on:change={handleSetXAmount("=")}
                 type="text"
-                value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
-                  currentXAmount
-                ).toFixed(2) :currentXAmount}
+                value={currentXAmountValue}
               /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
               <div class="sc-kDTinF bswIvI button-group">
                 <button disabled={xBetting || inputDisabled} on:click={handleSetXAmount("/")}
@@ -963,26 +972,27 @@
             <div class="input-label">
               <div class="sc-hmvnCu efWjNZ label"><div>Amount</div></div>
               <div class="label-amount">
-                {#if canViewInFiat}
+                <!-- {#if canViewInFiat}
                   {currentXAmount} {coinName}
                 {:else}
                   {WalletManager.getInstance().amountToFiatString(
                     currentXAmount
                   )}
-                {/if}
+                {/if} -->
               </div>
             </div>
             <div class="input-control {isFocused.autoBet ? 'is-focus' : ''}">
               <input
                 on:focus={() => (isFocused = { ...isFocused, autoBet: true })}
-                on:blur={() => (isFocused = { ...isFocused, autoBet: false })}
+                on:blur={() => {
+                  isFocused = { ...isFocused, autoBet: false }
+                  currentXAmountValue = currentXAmount
+                }}
                 on:input={inputValidate}
                 on:change={handleSetXAmount("=")}
                 disabled={autoBetting}
                 type="text"
-                value={canViewInFiat ? WalletManager.getInstance().amountToFiat(
-                  currentXAmount
-                ).toFixed(2) : currentXAmount}
+                value={currentXAmountValue}
               /><img alt="" class="coin-icon" src={canViewInFiat ? "/coin/USD.black.png" :  coinImage} />
               <div class="sc-kDTinF bswIvI button-group">
                 <button disabled={autoBetting} on:click={handleSetXAmount("/")}

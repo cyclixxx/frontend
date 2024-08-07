@@ -16,7 +16,7 @@
    import Footer from "$lib/footer.svelte";
    import { page } from '$app/stores';
    import { goto } from "$app/navigation";
-   import {success,message, isLoggin } from "$lib/store/activities";
+   import {success,message, isLoggin, isLiveStat} from "$lib/store/activities";
    import Auth from "$lib/auth/layout.svelte";
    import Verification from "$lib/auth/verify/verification.svelte";
    import Wallet from "$lib/wallet/layout.svelte";
@@ -24,6 +24,7 @@
    import { handleFetchPublicChat } from "$lib/socket/index";
    import SearchGames from "$lib/searchGames/SearchGames.svelte";
    import User from "$lib/user/layout.svelte"
+   import LiveStats from "$lib/games/crash/dialogs/LiveStats.svelte";
    export let data 
 
    $: isPassword = data?.password ? false : true
@@ -210,6 +211,10 @@
 {#if tab === "search"}
    <SearchGames tab={seaserEl}/>
 {/if}
+{#if $isLiveStat}
+   <LiveStats />
+{/if}
+
 
 <style>
 .css-1nc5kzu2{

@@ -1,8 +1,10 @@
 import Decimal from "decimal.js";
 import EventEmitter from "$lib/logics/EventEmitter";
-import {  fetchWallet } from "$lib/index";
+import { fetchWallet } from "$lib/index";
 import { default_Wallet, usd, fun_coupon, } from "$lib/store/coins";
-import { currencyRates, preferredCurrency } from "$lib/store/currency";
+import {
+  currencyRates, preferredCurrency
+} from "$lib/store/currency";
 import {
   action,
   computed,
@@ -11,7 +13,7 @@ import {
   reaction,
   runInAction,
 } from "mobx";
-import UserStore from "$lib/logics/UserStore";
+import UserStore from "./UserStore";
 let lastDeductionId;
 
 class Currency {
@@ -40,7 +42,7 @@ class Currency {
     this.currencyType = "";
     this.withdrawLimitAmount = 0;
     Object.assign(this, e);
-    
+
     makeObservable(this, {
       amount: observable,
       displayStatus: observable,
@@ -82,7 +84,7 @@ class Currency {
 const appData = {
   currencyName: "USD",
   currencyImage:
-  "https://res.cloudinary.com/dxwhz3r81/image/upload/v1721026026/USD_Coin_-_Green_ai65gw.png",
+    "https://res.cloudinary.com/dxwhz3r81/image/upload/v1721026026/USD_Coin_-_Green_ai65gw.png",
   enableLocaleCurrency: true,
   localeCurrencyName: "USD",
 };
@@ -103,7 +105,7 @@ export default class WalletManager extends EventEmitter {
     this.isFirstSync = true;
     this.hideAmount = false;
     this.preferredFiatCurrency = "USD";
-    this.current = { 
+    this.current = {
       currencyName: appData.currencyName,
       currencyImage: appData.currencyImage
     };
@@ -126,29 +128,30 @@ export default class WalletManager extends EventEmitter {
       currencyImage: appData.currencyImage,
       aliasCurrencyName: appData.currencyName,
       minAmount: 0.01, maxAmount: 10000000,
-      usdPrice: 0,
+      usdPrice: 1,
     });
-    
+
 
     setInterval(() => this.syncSystemConfig(), 96e4);
     reaction(
       () => UserStore.getInstance().auth,
       () => {
         this.syncData();
-      } 
+      }
     );
-    
+
     const updateWallet = (wallet) => {
       if (wallet && wallet.coin_name) {
-        let minAmount = wallet.coin_name === "Fun Coupons"  ? 0.01 : wallet.coin_name === "USD" ? 0.01 : 1000000;
-          let maxAmount = wallet.coin_name === "Fun Coupons"  ? 1000000 : wallet.coin_name === "USD" ? 50000 : 0.4;
-          const usdPrice = wallet.coin_name === "Fun Coupons"  ? 1000000 : (wallet.coin_name === "USD" ? 0.1 : 123);
+        let minAmount = wallet.coin_name === "Fun Coupons" ? 0.01 : wallet.coin_name === "USD" ? 0.01 : 1;
+        let maxAmount = wallet.coin_name === "Fun Coupons" ? 100_000 : wallet.coin_name === "USD" ? 5_000 : 30_000;
+        const usdPrice = wallet.coin_name === "Fun Coupons" ? 0 : (wallet.coin_name === "USD" ? 1 : 0.1);
         if (this.dict[wallet.coin_name]) {
           this.dict[wallet.coin_name].setAmount(wallet.balance);
           this.dict[wallet.coin_name].minAmount = minAmount;
           this.dict[wallet.coin_name].maxAmount = maxAmount;
           this.dict[wallet.coin_name].usdPrice = usdPrice;
         } else {
+
           this.addCurrency({
             amount: wallet.balance,
             currencyName: wallet.coin_name,
@@ -274,6 +277,7 @@ export default class WalletManager extends EventEmitter {
 
   deleteDeduction(id, notify = true) {
     const deduction = this.deductions[id];
+
     if (deduction) {
       delete this.deductions[deduction.id];
       if (deduction.timer > 0) {
@@ -292,7 +296,7 @@ export default class WalletManager extends EventEmitter {
       fetchWallet("usd"),
     ]);
 
-    const balances = [usd, fun_coupon].map(
+    const balances = [fun_coupon, usd].map(
       (wallet) => ({
         amount: wallet.balance,
         currencyName: wallet.coin_name,
@@ -309,9 +313,9 @@ export default class WalletManager extends EventEmitter {
       balances
         .sort((a, b) => a.amount - b.amount)
         .forEach((balance) => {
-          let minAmount = wallet.coin_name === "Fun Coupons"  ? 0.01 : wallet.coin_name === "USD" ? 0.01 : 1000000;
-          let maxAmount = wallet.coin_name === "Fun Coupons"  ? 1000000 : wallet.coin_name === "USD" ? 50000 : 0.4;
-          const usdPrice = wallet.coin_name === "Fun Coupons"  ? 1000000 : (wallet.coin_name === "USD" ? 0.1 : 123);
+          const minAmount = balance.currencyName === "Fun Coupons" ? 0.01 : balance.currencyName === "USD" ? 0.1 : 1;
+          const maxAmount = balance.currencyName === "Fun Coupons" ? 100_000 : balance.currencyName === "USD" ? 5_000 : 30_000;
+          const usdPrice = balance.currencyName === "Fun Coupons" ? 0 : (balance.currencyName === "USD" ? 1 : 0.1);
           let currency = this.dict[balance.currencyName];
 
           if (currency) {
@@ -411,9 +415,9 @@ export default class WalletManager extends EventEmitter {
     return amount >= 1e7 || amount <= -1e7
       ? amount.toFixed()
       : amount
-          .toFixed(precision)
-          .substr(0, amount > 0 ? 10 : 11)
-          .replace(/\.0+$/, "");
+        .toFixed(precision)
+        .substr(0, amount > 0 ? 10 : 11)
+        .replace(/\.0+$/, "");
   }
 
   isValuable(currency) {
@@ -421,27 +425,27 @@ export default class WalletManager extends EventEmitter {
     return !!(currencyObj && currencyObj.usdPrice > 0);
   }
 
-  amountToFiatString(amount, token = this.current.currencyName , fiat = this.preferredFiatCurrency, rates = this.currencyRates, precision = 4) {
+  amountToFiatString(amount, token = this.current.currencyName, fiat = this.preferredFiatCurrency, rates = this.currencyRates, precision = 4) {
     return `${this.amountToFiat(amount, token, fiat, rates).toFixed(precision)} ${fiat}`
   }
 
-  amountToFiat(amount, token = this.current.currencyName , fiat = this.preferredFiatCurrency, rates = this.currencyRates) {
+  amountToFiat(amount, token = this.current.currencyName, fiat = this.preferredFiatCurrency, rates = this.currencyRates) {
     if (!rates.length) return 0;
-    const rate = rates.find(r => r.currency=== fiat)?.rate || 0;
+    const rate = rates.find(r => r.currency === fiat)?.rate || 0;
     const bnAmount = new Decimal(amount);
-    const usdPrice = token === "Fun Coupons"  ? 0 : token === "USD" ? 0.1 : 1; //this.dict[currency].usdPrice
+    const usdPrice = token === "Fun Coupons" ? 0 : token === "USD" ? 0.1 : 1; //this.dict[currency].usdPrice
     return bnAmount.mul(usdPrice).mul(rate).toNumber()
   }
 
   fiatToAmount(amount, token = this.current.currencyName, fiat = this.preferredFiatCurrency, rates = this.currencyRates) {
     if (!rates.length) return 0;
-    const rate = rates.find(r => r.currency=== fiat)?.rate || 0;
+    const rate = rates.find(r => r.currency === fiat)?.rate || 0;
     const fiatAmount = new Decimal(amount);
-    const usdPrice = token === "Fun Coupons"  ? 0 : token === "USD" ? 0.1 : 1; //this.dict[currency].usdPrice
+    const usdPrice = token === "Fun Coupons" ? 0 : token === "USD" ? 0.1 : 1; //this.dict[currency].usdPrice
     if (usdPrice === 0 || rate === 0) return 0
     return fiatAmount.div(usdPrice).div(rate).toNumber()
   }
-  
+
 
   amountToLocale(amount, currency) {
     const bnAmount = new Decimal(amount);

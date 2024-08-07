@@ -13,6 +13,12 @@
   const { removeTrailingZeros, getSuffix } = useFormatter();
   $: trendBetActive = false;
   $: showingMore = false;
+  
+  const trenball_green_lose = new URL('../../game-images/trenball_green_lose.webp', import.meta.url).href;
+  const trenball_green_win = new URL('../../game-images/trenball_green.webp', import.meta.url).href;
+  const trenball_red = new URL('../../game-images/trenball_red.webp', import.meta.url).href;
+  const trenball_red_lose = new URL('../../game-images/trenball_red_lose.webp', import.meta.url).href;
+  const knife = new URL('../../game-images/knife.webp', import.meta.url).href;
 
   let game = null;
 
@@ -49,12 +55,12 @@
 
         shibaAvatar =
           0 == xBet.result || xBet.result == -200
-            ? "https://static.nanogames.io/assets/trenball_red.0078e052.png"
-            : "https://static.nanogames.io/assets/trenball_red_lose.968eee93.png";
+            ? trenball_red
+            : trenball_red_lose;
         dogeAvatar =
           0 == xBet.result || xBet.result == 200
-            ? "https://static.nanogames.io/assets/trenball_green.60f2a952.png"
-            : "https://static.nanogames.io/assets/trenball_green_lose.ac2159d5.png";
+            ? trenball_green_win
+            : trenball_green_lose;
       });
 
       function onPlayerChanged() {
@@ -216,7 +222,7 @@
           <div class="title">Red Shiba</div>
         </div>
         <div class="item knife">
-          <img alt="" src="https://static.nanogames.io/assets/knife.1e91682e.png" />
+          <img alt="" src="{knife}" />
           <div class="title">VS</div>
         </div>
         <div class="item green">
@@ -256,9 +262,8 @@
             <table class="sc-gWXbKe iUeetX table is-hover">
               <tbody>
                 {#each redList as bet, index (`${bet.userId}_${index}`)}
-                  <tr
-                    ><td>
-                      
+                  <tr>
+                    <td> 
                       <a class="sc-jUosCB iTDswZ user-info"
                       href={`${$url === "/" ? "" : $url}/?tab=profile&id=${bet.user_id}`}>
                         <img  alt="" class="avatar"

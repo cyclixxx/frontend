@@ -117,7 +117,7 @@ export default class CrashXBetHandler extends CasinoGame {
     }
   }
 
-  init2(bets) {
+  init2(bets, status = 0) {
     this.betDict = {};
     this.redList = [];
     this.greenList = [];
@@ -127,15 +127,19 @@ export default class CrashXBetHandler extends CasinoGame {
     formattedBets
       .filter((bet) => bet.userId === UserStore.getInstance().user.userId)
       .forEach(({ bet, currencyName, type, gameId }) => {
+        if (status === 2) {
+          WalletManager.getInstance().createDeduction(bet, currencyName);
+        }
         this.addMyBet({
           gameId,
           bet,
           currencyName,
           type,
-          status: 0,
+          status,
         });
       });
     this.addBets(formattedBets);
+    
     if (this.game.rate >= 2) {
       this.onEnd2();
     }

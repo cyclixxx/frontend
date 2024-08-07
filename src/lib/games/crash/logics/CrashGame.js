@@ -333,7 +333,6 @@ export default class CrashGame extends BaseGame {
     const player = this.playersDict[userId];
     if (player) {
       if (player.userId === this.user.userId) {
-        console.log('Setting bet rate on escape=> ', rate)
         this.setBetInfo({ ...this.betInfo, rate });
         this.emit("escapeSuccess", {
           amount: this.betInfo.bet,
@@ -411,7 +410,6 @@ export default class CrashGame extends BaseGame {
         userBet &&
         this.betInfo
       ) {
-        console.log('Setting user bet rate => ', userBet)
         this.betInfo.rate = userBet.rate;
         player.rate = this.betInfo.rate;
         settleData.wager = player.bet.toNumber();
@@ -510,7 +508,7 @@ export default class CrashGame extends BaseGame {
 
       this.players = [];
       this.displayedPlayers = [];
-      this.playerDict = {};
+      this.playersDict = {};
       this.setBetInfo(null);
 
       const parsedPlayers = joinResponse.players.map((player) => {
@@ -538,8 +536,7 @@ export default class CrashGame extends BaseGame {
       });
 
       this.addPlayer(parsedPlayers);
-
-      const currentPlayer = this.playerDict[this.user?.userId];
+      const currentPlayer = this.playersDict[this.user?.userId];
       if (currentPlayer) {
         this.setBetInfo({
           bet: currentPlayer.bet,
@@ -548,9 +545,13 @@ export default class CrashGame extends BaseGame {
           currencyName: currentPlayer.currencyName,
           currencyImage: currentPlayer.currencyImage,
         });
+        if (status === 2) {
+          if (currentPlayer.rate) WalletManager.getInstance().createDeduction(currentPlayer.bet.mul(currentPlayer.rate).sub(currentPlayer.bet).negated(), currentPlayer.currencyName);
+          else WalletManager.getInstance().createDeduction(currentPlayer.bet, currentPlayer.currencyName);
+        }
       }
 
-      this.xbet.init2(joinResponse.xBets);
+      this.xbet.init2(joinResponse.xBets, status);
 
       // this.onJackpotChange(jackpotResponse); // data.jackpot == {currency: number}
     });
